@@ -1,4 +1,4 @@
-export class Expertise {
+export class Expertises {
     anger?: Number;
     artillery?: Number;
     athleticism?: Number;

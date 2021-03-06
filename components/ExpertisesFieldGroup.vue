@@ -11,67 +11,67 @@
         <RatingField
           title="Artilharia"
           id="artillery-attribute-field"
-          v-bind:value="expertise.artillery"
+          v-bind:value="expertises.artillery"
         />
         <RatingField
           title="Atletismo"
           id="athleticism-attribute-field"
-          v-bind:value="expertise.athleticism"
+          v-bind:value="expertises.athleticism"
         />
         <RatingField
           title="Ciência"
           id="science-attribute-field"
-          v-bind:value="expertise.science"
+          v-bind:value="expertises.science"
         />
         <RatingField
           title="Computação"
           id="computation-attribute-field"
-          v-bind:value="expertise.computation"
+          v-bind:value="expertises.computation"
         />
         <RatingField
           title="Mecânica"
           id="mechanics-attribute-field"
-          v-bind:value="expertise.mechanics"
+          v-bind:value="expertises.mechanics"
         />
         <RatingField
           title="Medicina"
           id="medicine-attribute-field"
-          v-bind:value="expertise.medicine"
+          v-bind:value="expertises.medicine"
         />
         <RatingField
           title="Percepção"
           id="perception-attribute-field"
-          v-bind:value="expertise.perception"
+          v-bind:value="expertises.perception"
         />
         <RatingField
           title="Pilotagem"
           id="piloting-attribute-field"
-          v-bind:value="expertise.piloting"
+          v-bind:value="expertises.piloting"
         />
         <RatingField
           title="Sobrevivência"
           id="survival-attribute-field"
-          v-bind:value="expertise.survival"
+          v-bind:value="expertises.survival"
         />
         <RatingField
           title="Surdina"
           id="stealth-attribute-field"
-          v-bind:value="expertise.stealth"
+          v-bind:value="expertises.stealth"
         />
         <RatingField
           title="Pistolagem"
           id="anger-attribute-field"
-          v-bind:value="expertise.anger"
+          v-bind:value="expertises.anger"
         />
         <RatingField
           title="Papo reto"
           id="sincerity-attribute-field"
-          v-bind:value="expertise.sincerity"
+          v-bind:value="expertises.sincerity"
         />
         <RatingField
           title="Trambique"
           id="swindler-attribute-field"
-          v-bind:value="expertise.swindler"
+          v-bind:value="expertises.swindler"
         />
       </b-form-group>
     </b-card>
@@ -80,11 +80,11 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Expertise } from '@/assets/classes/expertise'
+import { Expertises } from '@/assets/classes/expertises'
 
 export default Vue.extend({
   props: {
-    expertise: Expertise,
+    expertises: Expertises,
   },
 })
 </script>
