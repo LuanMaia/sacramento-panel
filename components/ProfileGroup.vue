@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card bg-variant="dark" text-variant="white" title="Perfil">
-      <TextField
+      <InputField
         id="character-name-field"
         label="Nome"
         :value="name"
@@ -9,7 +9,7 @@
         contentCols="6"
         :readonly="readonly"
       />
-      <TextField
+      <InputField
         id="player-name-field"
         label="Jogador"
         :value="player"
@@ -17,7 +17,7 @@
         contentCols="6"
         :readonly="readonly"
       />
-      <TextField
+      <InputField
         id="character-description-field"
         label="Conceito"
         :value="description"
@@ -25,19 +25,19 @@
         contentCols="6"
         :readonly="readonly"
       />
+      <InputField
+        id="character-character-experience-field"
+        label="Experiência"
+        :value="exp"
+        labelCols="3"
+        contentCols="6"
+        :readonly="readonly"
+        type="number"
+      />
       <SpinButtonField
         id="character-character-life-field"
         label="Vida"
         :value="life"
-        labelCols="3"
-        contentCols="6"
-        min="0"
-        :readonly="readonly"
-      />
-      <SpinButtonField
-        id="character-character-experience-field"
-        label="Experiência"
-        :value="exp"
         labelCols="3"
         contentCols="6"
         min="0"

@@ -13,6 +13,7 @@
         v-model="value"
         trim
         :readonly="readonly"
+        :type="type"
       ></b-form-input>
     </b-form-group>
   </div>
@@ -30,6 +31,7 @@ export default Vue.extend({
     labelCols: Number,
     contentCols: Number,
     readonly: Boolean,
+    type: String,
   },
 })
 </script>
