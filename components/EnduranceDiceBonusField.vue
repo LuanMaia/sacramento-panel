@@ -4,7 +4,6 @@
       label-cols="3"
       content-cols="4"
       :label="title"
-      label-align-sm="right"
       label-size="lg"
       :description="`${diceBonus.type} + ${diceBonus.dice}`"
     >
