@@ -5,10 +5,13 @@
       text-variant="white"
       title="Vantagens e desvantagens"
     >
-      <p v-for="(characteristic, index) in characteristics" :key="index">
-        <span>{{ characteristic.name }}: </span>
-        <span>{{ characteristic.description }}</span>
-      </p>
+      <CharacteristicLine
+        v-for="(characteristic, index) in characteristics"
+        :key="index"
+        :characteristic="characteristic"
+        :index="index"
+        :readonly="readonly"
+      />
     </b-card>
   </div>
 </template>
@@ -19,6 +22,7 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     characteristics: Array,
+    readonly: Boolean
   },
 })
 </script>
