@@ -25,6 +25,24 @@
         contentCols="6"
         :readonly="readonly"
       />
+      <SpinButtonField
+        id="character-character-life-field"
+        label="Vida"
+        :value="life"
+        labelCols="3"
+        contentCols="6"
+        min="0"
+        :readonly="readonly"
+      />
+      <SpinButtonField
+        id="character-character-experience-field"
+        label="Experiência"
+        :value="exp"
+        labelCols="3"
+        contentCols="6"
+        min="0"
+        :readonly="readonly"
+      />
     </b-card>
   </div>
 </template>
@@ -37,7 +55,9 @@ export default Vue.extend({
     name: String,
     player: String,
     description: String,
-    readonly: Boolean
+    readonly: Boolean,
+    life: Number,
+    exp: Number,
   },
 })
 </script>

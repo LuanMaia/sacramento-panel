@@ -6,6 +6,8 @@
           :name="name"
           :player="player"
           :description="description"
+          :exp="exp"
+          :life="life"
           :readonly="true"
         />
       </div>
@@ -118,6 +120,8 @@ export default Vue.extend({
       name: 'Stella',
       player: 'Luauler',
       description: 'Cientista telepática camaleônica',
+      exp: 1000,
+      life: 10,
     }
   },
 })
