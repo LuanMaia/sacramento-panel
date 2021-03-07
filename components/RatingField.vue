@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-form-group
-      label-cols="3"
+      label-cols="4"
       content-cols="4"
       v-bind:label="title"
       v-bind:label-for="id"
