@@ -41,7 +41,6 @@
         labelCols="3"
         contentCols="6"
         min="0"
-        :readonly="readonly"
       />
     </b-card>
   </div>

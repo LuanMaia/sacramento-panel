@@ -38,6 +38,7 @@
           <CharacteristicsGroup
             class="info-group"
             :characteristics="characteristics"
+            :readonly="true"
           />
         </div>
       </div>

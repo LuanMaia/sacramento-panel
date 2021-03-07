@@ -12,7 +12,17 @@
         :index="index"
         :readonly="readonly"
       />
+      <b-button
+        class="col-10"
+        variant="outline-success"
+        @click="showAddCharacteristicModal"
+        v-if="!readonly"
+      >
+        Adicionar
+      </b-button>
     </b-card>
+
+    <CharacteristicModal id="add-characteristic-modal" v-if="!readonly" />
   </div>
 </template>
 
@@ -22,7 +32,12 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     characteristics: Array,
-    readonly: Boolean
+    readonly: Boolean,
+  },
+  methods: {
+    showAddCharacteristicModal() {
+      this.$bvModal.show('add-characteristic-modal')
+    },
   },
 })
 </script>
