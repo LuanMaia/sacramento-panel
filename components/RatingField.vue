@@ -7,7 +7,15 @@
       v-bind:label-for="id"
       label-align-sm="right"
     >
-      <b-form-rating v-bind:id="id" v-model="value" stars="3" color="#ff8800" :readonly="readonly">
+      <b-form-rating
+        v-bind:id="id"
+        v-model="value"
+        stars="3"
+        color="#ff8800"
+        :readonly="readonly"
+        icon-full="dice6-fill"
+        icon-empty="square"
+      >
       </b-form-rating>
     </b-form-group>
   </div>
