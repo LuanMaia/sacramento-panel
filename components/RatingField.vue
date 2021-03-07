@@ -7,7 +7,7 @@
       v-bind:label-for="id"
       label-align-sm="right"
     >
-      <b-form-rating v-bind:id="id" v-model="value" stars="3" color="#ff8800">
+      <b-form-rating v-bind:id="id" v-model="value" stars="3" color="#ff8800" :readonly="readonly">
       </b-form-rating>
     </b-form-group>
   </div>
@@ -21,6 +21,7 @@ export default Vue.extend({
     value: Number,
     title: String,
     id: String,
+    readonly: Boolean,
   },
 })
 </script>

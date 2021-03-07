@@ -14,6 +14,7 @@
           :title="value.name"
           :id="`weapon-item-${index}`"
           :value="value.power"
+          :readonly="readonly"
         />
       </b-form-group>
 
@@ -30,6 +31,7 @@
           :title="value.name"
           :id="`weapon-item-${index}`"
           :value="value.power"
+          :readonly="readonly"
         />
       </b-form-group>
     </b-card>
@@ -43,6 +45,7 @@ import { BattleInventory } from '@/assets/classes/battle-inventory'
 export default Vue.extend({
   props: {
     battleInventory: BattleInventory,
+    readonly: Boolean
   },
 })
 </script>

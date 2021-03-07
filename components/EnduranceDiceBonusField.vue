@@ -6,6 +6,7 @@
       :label="title"
       label-size="lg"
       :description="`${diceBonus.type} + ${diceBonus.dice}`"
+      v-if="!readonly"
     >
       <b-form-group
         label-cols="4"
@@ -32,6 +33,11 @@
         ></b-form-select>
       </b-form-group>
     </b-form-group>
+
+    <p v-else>
+      <span class="endurance-field-title">{{ title }}: </span>
+      <span>{{ diceBonus.type }} + {{ diceBonus.dice }}</span>
+    </p>
   </div>
 </template>
 
@@ -51,6 +57,14 @@ export default Vue.extend({
   props: {
     title: String,
     diceBonus: EnduranceDiceBonus,
+    readonly: Boolean,
   },
 })
 </script>
+
+<style lang="scss">
+.endurance-field-title {
+  font-weight: bolder;
+  font-size: 1.2rem;
+}
+</style>

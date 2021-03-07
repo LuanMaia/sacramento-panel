@@ -4,17 +4,20 @@
       <RatingField
         title="Cabulosidade"
         id="strength-attribute-field"
-        v-bind:value="attributes.strength"
+        :value="attributes.strength"
+        :readonly="readonly"
       />
       <RatingField
         title="Sagacidade"
         id="wit-attribute-field"
-        v-bind:value="attributes.wit"
+        :value="attributes.wit"
+        :readonly="readonly"
       />
       <RatingField
         title="Malemolência"
         id="charisma-attribute-field"
-        v-bind:value="attributes.charisma"
+        :value="attributes.charisma"
+        :readonly="readonly"
       />
     </b-card>
   </div>
@@ -27,6 +30,7 @@ import { Attributes } from '@/assets/classes/attributes'
 export default Vue.extend({
   props: {
     attributes: Attributes,
+    readonly: Boolean,
   },
 })
 </script>

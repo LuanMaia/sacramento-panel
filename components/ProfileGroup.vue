@@ -7,6 +7,7 @@
         :value="name"
         labelCols="3"
         contentCols="6"
+        :readonly="readonly"
       />
       <TextField
         id="player-name-field"
@@ -14,6 +15,7 @@
         :value="player"
         labelCols="3"
         contentCols="6"
+        :readonly="readonly"
       />
       <TextField
         id="character-description-field"
@@ -21,6 +23,7 @@
         :value="description"
         labelCols="3"
         contentCols="6"
+        :readonly="readonly"
       />
     </b-card>
   </div>
@@ -34,6 +37,7 @@ export default Vue.extend({
     name: String,
     player: String,
     description: String,
+    readonly: Boolean
   },
 })
 </script>

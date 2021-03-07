@@ -8,7 +8,12 @@
       :content-cols="contentCols"
       label-align-sm="right"
     >
-      <b-form-input :id="id" v-model="value" trim></b-form-input>
+      <b-form-input
+        :id="id"
+        v-model="value"
+        trim
+        :readonly="readonly"
+      ></b-form-input>
     </b-form-group>
   </div>
 </template>
@@ -23,7 +28,8 @@ export default Vue.extend({
     value: String,
     description: String,
     labelCols: Number,
-    contentCols: Number
+    contentCols: Number,
+    readonly: Boolean,
   },
 })
 </script>
