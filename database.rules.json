@@ -1,6 +1,14 @@
 {
   "rules": {
     ".read": false,
-    ".write": false
+    ".write": false,
+    "character": {
+      "$character_id": {
+        ".read": "$character_id.contains('public')",
+        "life": {
+          ".write": true
+        }
+      }
+    }
   }
 }
