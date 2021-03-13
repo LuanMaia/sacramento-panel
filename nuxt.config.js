@@ -49,7 +49,8 @@ export default {
       measurementId: "G-W2QJZCNNWJ"
     },
     services: {
-      auth: true
+      auth: true,
+      database: true,
     }
   },
 
