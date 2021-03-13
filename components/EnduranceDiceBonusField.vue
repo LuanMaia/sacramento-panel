@@ -56,7 +56,10 @@ export default Vue.extend({
   },
   props: {
     title: String,
-    diceBonus: EnduranceDiceBonus,
+    diceBonus: {
+      type: EnduranceDiceBonus,
+      default: new EnduranceDiceBonus(),
+    },
     readonly: Boolean,
   },
 })

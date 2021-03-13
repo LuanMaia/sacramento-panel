@@ -29,7 +29,10 @@ import { Attributes } from '@/assets/classes/attributes'
 
 export default Vue.extend({
   props: {
-    attributes: Attributes,
+    attributes: {
+      type: Attributes,
+      default: new Attributes(),
+    },
     readonly: Boolean,
   },
 })

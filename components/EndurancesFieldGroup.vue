@@ -26,7 +26,10 @@ import { Endurances } from '@/assets/classes/endurances'
 
 export default Vue.extend({
   props: {
-    endurances: Endurances,
+    endurances: {
+      type: Endurances,
+      default: new Endurances(),
+    },
     readonly: Boolean,
   },
 })
