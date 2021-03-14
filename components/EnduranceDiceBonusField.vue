@@ -5,7 +5,7 @@
       content-cols="4"
       :label="title"
       label-size="lg"
-      :description="`${diceBonus.type} + ${diceBonus.dice}`"
+      :description="`${diceBonus.attribute} + ${diceBonus.dice}`"
       v-if="!readonly"
     >
       <b-form-group
@@ -16,7 +16,7 @@
         label-size="sm"
       >
         <b-form-select
-          v-model="diceBonus.type"
+          v-model="diceBonus.attribute"
           :options="typeOptions"
         ></b-form-select>
       </b-form-group>
@@ -36,7 +36,7 @@
 
     <p v-else>
       <span class="endurance-field-title">{{ title }}: </span>
-      <span>{{ diceBonus.type }} + {{ diceBonus.dice }}</span>
+      <span>{{ diceBonus.attribute }} + {{ diceBonus.dice }}</span>
     </p>
   </div>
 </template>
@@ -56,7 +56,10 @@ export default Vue.extend({
   },
   props: {
     title: String,
-    diceBonus: EnduranceDiceBonus,
+    diceBonus: {
+      type: EnduranceDiceBonus,
+      default: new EnduranceDiceBonus(),
+    },
     readonly: Boolean,
   },
 })

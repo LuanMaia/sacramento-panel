@@ -3,11 +3,12 @@
     <div class="character-sheet">
       <div class="character-profile">
         <ProfileGroup
-          :name="name"
-          :player="player"
-          :description="description"
-          :exp="exp"
-          :life="life"
+          :name="character.name"
+          :player="character.player"
+          :description="character.description"
+          :exp="character.exp"
+          :life="character.life"
+          @life="updateLife($event)"
           :readonly="true"
         />
       </div>
@@ -15,29 +16,29 @@
         <div class="col">
           <AttributesFieldGroup
             class="info-group"
-            v-bind:attributes="attributes"
+            v-bind:attributes="character.attributes"
             :readonly="true"
           />
           <EndurancesFieldGroup
             class="info-group"
-            v-bind:endurances="endurances"
+            v-bind:endurances="character.endurances"
             :readonly="true"
           />
           <BattleInventoryGroup
             class="info-group"
-            :battleInventory="battleInventory"
+            :battleInventory="character.battleInventory"
             :readonly="true"
           />
         </div>
         <div class="col">
           <ExpertisesFieldGroup
             class="info-group"
-            v-bind:expertises="expertises"
+            v-bind:expertises="character.expertises"
             :readonly="true"
           />
           <CharacteristicsGroup
             class="info-group"
-            :characteristics="characteristics"
+            :characteristics="character.characteristics"
             :readonly="true"
           />
         </div>
@@ -49,81 +50,50 @@
 <script lang="ts">
 import Vue from 'vue'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
-import { Attributes } from '@/assets/classes/attributes'
-import { Expertises } from '@/assets/classes/expertises'
-import { Endurances } from '@/assets/classes/endurances'
-import { EnduranceAttributeType } from '@/assets/classes/endurance-attribute-type'
-import { DiceType } from '@/assets/classes/dice-type'
-import { BattleInventory } from '@/assets/classes/battle-inventory'
-import { Characteristic } from '@/assets/classes/characteristic'
+import { Character } from '@/assets/classes/character'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
+const uuidQueryParamName = 'character-uuid'
+
 export default Vue.extend({
+  mounted() {
+    this.listenToCharacterDataChange()
+  },
   data() {
     return {
-      attributes: {
-        strength: 1,
-        wit: 3,
-        charisma: 2,
-      } as Attributes,
-      expertises: {
-        anger: 0,
-        artillery: 0,
-        athleticism: 0,
-        computation: 0,
-        mechanics: 0,
-        medicine: 1,
-        perception: 1,
-        piloting: 0,
-        science: 2,
-        sincerity: 1,
-        stealth: 2,
-        survival: 1,
-        swindler: 0,
-      } as Expertises,
-      endurances: {
-        physical: {
-          type: EnduranceAttributeType.STRENGTH,
-          dice: DiceType.DICE_1D8,
-        },
-        mental: {
-          type: EnduranceAttributeType.WIT,
-          dice: DiceType.DICE_1D8,
-        },
-        social: {
-          type: EnduranceAttributeType.CHARISMA,
-          dice: DiceType.DICE_1D8,
-        },
-      } as Endurances,
-      battleInventory: {
-        armors: [
-          {
-            power: 1,
-            name: 'Sobtraje nanóico',
-          },
-        ],
-        weapons: [
-          {
-            power: 1,
-            name: 'Calyptra (Arco) [S]',
-          },
-        ],
-      } as BattleInventory,
-      characteristics: [
-        {
-          name: 'Camuflagem camaleônica',
-          description:
-            'Stella ganha mais 1d6 nas rolagens de Surdina com Sagacidade.',
-        },
-      ] as Characteristic[],
-      name: 'Stella',
-      player: 'Luauler',
-      description: 'Cientista telepática camaleônica',
-      exp: 1000,
-      life: 10,
+      character: new Character(),
     }
+  },
+  methods: {
+    listenToCharacterDataChange(): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const characterRef = this.$fire.database.ref(
+        `character/public-${uuidQueryParam}`
+      )
+
+      characterRef.on('value', (snapshot) => {
+        const characterData = snapshot.val()
+        this.character = this.$convertFirebaseCharacterData(characterData)
+      })
+    },
+    updateLife(life: Number): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const lifeRef = this.$fire.database
+        .ref(`character/public-${uuidQueryParam}`)
+        .child('life')
+
+      lifeRef.set(life)
+    },
   },
 })
 </script>

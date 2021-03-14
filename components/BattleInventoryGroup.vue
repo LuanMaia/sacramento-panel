@@ -44,8 +44,11 @@ import { BattleInventory } from '@/assets/classes/battle-inventory'
 
 export default Vue.extend({
   props: {
-    battleInventory: BattleInventory,
-    readonly: Boolean
+    battleInventory: {
+      type: BattleInventory,
+      default: new BattleInventory(),
+    },
+    readonly: Boolean,
   },
 })
 </script>

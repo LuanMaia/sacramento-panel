@@ -89,7 +89,10 @@ import { Expertises } from '@/assets/classes/expertises'
 
 export default Vue.extend({
   props: {
-    expertises: Expertises,
+    expertises: {
+      type: Expertises,
+      default: new Expertises(),
+    },
     readonly: Boolean,
   },
 })

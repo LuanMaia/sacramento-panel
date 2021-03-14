@@ -9,7 +9,8 @@
     >
       <b-form-spinbutton
         :id="id"
-        v-model="value"
+        :value="value"
+        @input="updateValue($event)"
         :min="min"
         :max="max"
         :readonly="readonly"
@@ -31,6 +32,11 @@ export default Vue.extend({
     min: Number,
     max: Number,
     readonly: Boolean,
+  },
+  methods: {
+    updateValue(value: Number): void {
+      this.$emit('input', value)
+    },
   },
 })
 </script>
