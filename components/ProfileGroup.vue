@@ -42,6 +42,7 @@
         labelCols="3"
         contentCols="6"
         min="0"
+        max="10"
       />
     </b-card>
   </div>

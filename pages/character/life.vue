@@ -1,7 +1,7 @@
 <template>
   <div class="glitch" :class="`gl-${glitchType}`">
-    <p class="life-text" :data-text="characterLife" v-if="characterLife != null" :style="`color: ${textColor};`">
-      {{ characterLife }}
+    <p class="life-text" :data-text="`${characterLife}/10`" v-if="characterLife != null" :style="`color: ${textColor};`">
+      {{ characterLife }}/10
     </p>
   </div>
 </template>
@@ -57,6 +57,7 @@ export default Vue.extend({
 
 <style lang="scss">
 .life-text {
-    font-size: 80vh;
+    font-size: 70vh;
+    font-family: BenderBlack;
 }
 </style>
