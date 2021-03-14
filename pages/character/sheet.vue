@@ -8,6 +8,7 @@
           :description="character.description"
           :exp="character.exp"
           :life="character.life"
+          :maxLife="character.maxLife"
           @life="updateLife($event)"
           :readonly="true"
         />

@@ -6,7 +6,7 @@
       "$character_id": {
         ".read": "data.child('public').exists() && data.child('public').val() === true",
         "life": {
-          ".write": true
+          ".write": "newData.val() <= data.parent().child('maxLife').val() && newData.val() >= 0"
         }
       }
     }

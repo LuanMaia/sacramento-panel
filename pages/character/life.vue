@@ -1,7 +1,7 @@
 <template>
   <div class="glitch" :class="`gl-${glitchType}`">
-    <p class="life-text" :data-text="`${characterLife}/10`" v-if="characterLife != null" :style="`color: ${textColor};`">
-      {{ characterLife }}/10
+    <p class="life-text" :data-text="`${characterLife}/${characterMaxLife}`" v-if="characterLife != null" :style="`color: ${textColor};`">
+      {{ characterLife }}/{{ characterMaxLife }}
     </p>
   </div>
 </template>
@@ -17,6 +17,7 @@ export default Vue.extend({
   data() {
     return {
       characterLife: 0,
+      characterMaxLife: 0,
       textColor: 'white',
       glitchType: 1
     }
@@ -24,6 +25,7 @@ export default Vue.extend({
   created() {
     this.characterLife = 0
     this.listenToCharacterLifeChange()
+    this.listenToCharacterMaxLifeChange()
 
     const textColor = this.$route.query[TEXT_COLOR_QUERY_PARAM_NAME]
     if (typeof textColor === 'string') {
@@ -49,6 +51,22 @@ export default Vue.extend({
       characterLifeRef.on('value', (snapshot) => {
         const characterLife: number = snapshot.val()
         this.characterLife = characterLife
+      })
+    },
+    listenToCharacterMaxLifeChange(): void {
+      const uuidQueryParam = this.$route.query[UUID_QUERY_PARAM_NAME]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const characterMaxLifeRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('maxLife')
+
+      characterMaxLifeRef.on('value', (snapshot) => {
+        const characterMaxLife: number = snapshot.val()
+        this.characterMaxLife = characterMaxLife
       })
     },
   },

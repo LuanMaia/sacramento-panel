@@ -27,6 +27,7 @@ Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharac
     character.description = firebaseCharacter.description;
     character.exp = firebaseCharacter.exp;
     character.life = firebaseCharacter.life;
+    character.maxLife = firebaseCharacter.maxLife;
 
     character.characteristics = firebaseArrayToArrayOf<Characteristic>(firebaseCharacter.characteristics);
 
@@ -87,6 +88,7 @@ class FirebaseCharacter {
     description?: String;
     exp?: Number;
     life?: Number;
+    maxLife?: Number;
 }
 
 class FirebaseBattleInventory {

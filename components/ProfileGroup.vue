@@ -42,7 +42,7 @@
         labelCols="3"
         contentCols="6"
         min="0"
-        max="10"
+        :max="maxLife"
       />
     </b-card>
   </div>
@@ -58,6 +58,7 @@ export default Vue.extend({
     description: String,
     readonly: Boolean,
     life: Number,
+    maxLife: Number,
     exp: Number,
   },
   methods: {

@@ -15,4 +15,5 @@ export class Character {
     description?: String;
     exp?: Number;
     life?: Number;
+    maxLife?: Number;
 }
