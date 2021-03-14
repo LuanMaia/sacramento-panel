@@ -8,6 +8,7 @@
           :description="character.description"
           :exp="character.exp"
           :life="character.life"
+          :maxLife="character.maxLife"
           @life="updateLife($event)"
           :readonly="true"
         />
@@ -73,9 +74,9 @@ export default Vue.extend({
         return
       }
 
-      const characterRef = this.$fire.database.ref(
-        `character/public-${uuidQueryParam}`
-      )
+      const characterRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
 
       characterRef.on('value', (snapshot) => {
         const characterData = snapshot.val()
@@ -89,7 +90,8 @@ export default Vue.extend({
       }
 
       const lifeRef = this.$fire.database
-        .ref(`character/public-${uuidQueryParam}`)
+        .ref('character')
+        .child(`${uuidQueryParam}`)
         .child('life')
 
       lifeRef.set(life)

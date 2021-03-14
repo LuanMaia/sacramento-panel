@@ -4,9 +4,9 @@
     ".write": false,
     "character": {
       "$character_id": {
-        ".read": "$character_id.contains('public')",
+        ".read": "data.child('public').exists() && data.child('public').val() === true",
         "life": {
-          ".write": true
+          ".write": "newData.val() <= data.parent().child('maxLife').val() && newData.val() >= 0"
         }
       }
     }
