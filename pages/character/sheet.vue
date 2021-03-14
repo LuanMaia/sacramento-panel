@@ -8,6 +8,7 @@
           :description="character.description"
           :exp="character.exp"
           :life="character.life"
+          @life="updateLife($event)"
           :readonly="true"
         />
       </div>
@@ -76,11 +77,22 @@ export default Vue.extend({
         `character/public-${uuidQueryParam}`
       )
 
-      console.log(`listening to: ${uuidQueryParam}`)
       characterRef.on('value', (snapshot) => {
         const characterData = snapshot.val()
         this.character = this.$convertFirebaseCharacterData(characterData)
       })
+    },
+    updateLife(life: Number): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const lifeRef = this.$fire.database
+        .ref(`character/public-${uuidQueryParam}`)
+        .child('life')
+
+      lifeRef.set(life)
     },
   },
 })

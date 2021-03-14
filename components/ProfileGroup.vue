@@ -38,6 +38,7 @@
         id="character-character-life-field"
         label="Vida"
         :value="life"
+        @input="updateLife($event)"
         labelCols="3"
         contentCols="6"
         min="0"
@@ -58,5 +59,10 @@ export default Vue.extend({
     life: Number,
     exp: Number,
   },
+  methods: {
+    updateLife(life: Number): void {
+      this.$emit('life', life)
+    }
+  }
 })
 </script>
