@@ -6,6 +6,9 @@ import { Endurances } from '@/assets/classes/endurances';
 import { BattleItem } from '@/assets/classes/battle-item';
 import { Characteristic } from '@/assets/classes/characteristic';
 import { BattleInventory } from '@/assets/classes/battle-inventory';
+import { DiceType } from '@/assets/classes/dice-type';
+import { EnduranceDiceBonus } from '@/assets/classes/endurance-dice-bonus';
+import { EnduranceAttributeType } from '@/assets/classes/endurance-attribute-type';
 
 declare module 'vue/types/vue' {
     interface Vue {
@@ -18,7 +21,7 @@ Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharac
 
     character.attributes = firebaseCharacter.attributes;
     character.expertises = firebaseCharacter.expertises;
-    character.endurances = firebaseCharacter.endurances;
+    character.endurances = convertFirebaseEndurances(firebaseCharacter.endurances);
     character.name = firebaseCharacter.name;
     character.player = firebaseCharacter.player;
     character.description = firebaseCharacter.description;
@@ -42,10 +45,41 @@ function firebaseArrayToArrayOf<T>(firebaseArray: { String: T } | undefined): Ar
     }
 }
 
+function convertFirebaseEndurances(firebaseEndurances: FirebaseEndurances | undefined): Endurances {
+    const endurances = new Endurances();
+
+    endurances.mental = new EnduranceDiceBonus();
+    endurances.physical = new EnduranceDiceBonus();
+    endurances.social = new EnduranceDiceBonus();
+
+    if (!firebaseEndurances) {
+        return endurances;
+    }
+
+    endurances.mental = convertFirebaseEnduranceDiceBonus(firebaseEndurances.mental);
+    endurances.physical = convertFirebaseEnduranceDiceBonus(firebaseEndurances.physical);
+    endurances.social = convertFirebaseEnduranceDiceBonus(firebaseEndurances.social);
+
+    return endurances;
+}
+
+function convertFirebaseEnduranceDiceBonus(firebaseEnduranceDiceBonus: FirebaseEnduranceDiceBonus | undefined): EnduranceDiceBonus {
+    const enduranceDiceBonus = new EnduranceDiceBonus();
+
+    if (!firebaseEnduranceDiceBonus || !firebaseEnduranceDiceBonus.attribute) {
+        return enduranceDiceBonus;
+    } else {
+        enduranceDiceBonus.attribute = EnduranceAttributeType[firebaseEnduranceDiceBonus.attribute];
+        enduranceDiceBonus.dice = firebaseEnduranceDiceBonus.dice;
+
+        return enduranceDiceBonus;
+    }
+}
+
 class FirebaseCharacter {
     attributes?: Attributes;
     expertises?: Expertises;
-    endurances?: Endurances;
+    endurances?: FirebaseEndurances;
     battleInventory?: FirebaseBattleInventory;
     characteristics?: { String: Characteristic };
     name?: String;
@@ -58,4 +92,15 @@ class FirebaseCharacter {
 class FirebaseBattleInventory {
     weapons?: { String: BattleItem };
     armors?: { String: BattleItem };
+}
+
+class FirebaseEndurances {
+    physical?: FirebaseEnduranceDiceBonus;
+    mental?: FirebaseEnduranceDiceBonus;
+    social?: FirebaseEnduranceDiceBonus;
+}
+
+class FirebaseEnduranceDiceBonus {
+    attribute?: 'STRENGTH' | 'WIT' | 'CHARISMA';
+    dice?: DiceType;
 }
