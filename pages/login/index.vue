@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <b-card class="login-card mt-3" header="Login">
-      <b-form @submit="onLoginSubmit" @reset="onReset">
+      <b-form @submit="onLoginSubmit">
         <b-form-group
           id="input-group-email"
           label="Email:"
