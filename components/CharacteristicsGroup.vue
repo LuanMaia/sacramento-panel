@@ -4,6 +4,7 @@
       bg-variant="dark"
       text-variant="white"
       title="Vantagens e desvantagens"
+      class="characteristics-card-container"
     >
       <CharacteristicLine
         v-for="(characteristic, index) in characteristics"
@@ -41,3 +42,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style lang="scss">
+.characteristics-card-container {
+  padding: 0 3rem;
+}
+</style>
