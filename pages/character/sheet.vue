@@ -40,6 +40,7 @@
           <ExpertisesFieldGroup
             class="info-group"
             :expertises="character.expertises"
+            @expertises="updateExpertises($event)"
             :readonly="!isAuthenticated()"
           />
           <CharacteristicsGroup
@@ -58,6 +59,7 @@ import Vue from 'vue'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { Character } from '@/assets/classes/character'
 import { Attributes } from '@/assets/classes/attributes'
+import { Expertises } from '@/assets/classes/expertises'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
@@ -90,7 +92,7 @@ export default Vue.extend({
       })
     },
     isAuthenticated(): boolean {
-      return this.$fire.auth.currentUser != null;
+      return this.$fire.auth.currentUser != null
     },
     updateName(name: String): void {
       const uuidQueryParam = this.$route.query[uuidQueryParamName]
@@ -169,6 +171,19 @@ export default Vue.extend({
         .child('attributes')
 
       attributesRef.set(attributes)
+    },
+    updateExpertises(expertises: Expertises): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const expertisesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('expertises')
+
+      expertisesRef.set(expertises)
     },
   },
 })
