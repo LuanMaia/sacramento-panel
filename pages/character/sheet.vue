@@ -4,13 +4,17 @@
       <div class="character-profile">
         <ProfileGroup
           :name="character.name"
+          @name="updateName($event)"
           :player="character.player"
+          @player="updatePlayer($event)"
           :description="character.description"
+          @description="updateDescription($event)"
           :exp="character.exp"
+          @exp="updateExp($event)"
           :life="character.life"
-          :maxLife="character.maxLife"
           @life="updateLife($event)"
-          :readonly="true"
+          :maxLife="character.maxLife"
+          :readonly="!isAuthenticated()"
         />
       </div>
       <div class="character-info row">
@@ -18,29 +22,29 @@
           <AttributesFieldGroup
             class="info-group"
             v-bind:attributes="character.attributes"
-            :readonly="true"
+            :readonly="!isAuthenticated()"
           />
           <EndurancesFieldGroup
             class="info-group"
             v-bind:endurances="character.endurances"
-            :readonly="true"
+            :readonly="!isAuthenticated()"
           />
           <BattleInventoryGroup
             class="info-group"
             :battleInventory="character.battleInventory"
-            :readonly="true"
+            :readonly="!isAuthenticated()"
           />
         </div>
         <div class="col">
           <ExpertisesFieldGroup
             class="info-group"
             v-bind:expertises="character.expertises"
-            :readonly="true"
+            :readonly="!isAuthenticated()"
           />
           <CharacteristicsGroup
             class="info-group"
             :characteristics="character.characteristics"
-            :readonly="true"
+            :readonly="!isAuthenticated()"
           />
         </div>
       </div>
@@ -82,6 +86,61 @@ export default Vue.extend({
         const characterData = snapshot.val()
         this.character = this.$convertFirebaseCharacterData(characterData)
       })
+    },
+    isAuthenticated(): boolean {
+      return this.$fire.auth.currentUser != null;
+    },
+    updateName(name: String): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const nameRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('name')
+
+      nameRef.set(name)
+    },
+    updatePlayer(player: String): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const playerRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('player')
+
+      playerRef.set(player)
+    },
+    updateDescription(description: String): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const descriptionRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('description')
+
+      descriptionRef.set(description)
+    },
+    updateExp(exp: Number): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const expRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('exp')
+
+      expRef.set(exp)
     },
     updateLife(life: Number): void {
       const uuidQueryParam = this.$route.query[uuidQueryParamName]

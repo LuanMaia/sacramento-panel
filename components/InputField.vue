@@ -10,7 +10,8 @@
     >
       <b-form-input
         :id="id"
-        v-model="value"
+        :value="value"
+        @input="updateValue($event)"
         trim
         :readonly="readonly"
         :type="type"
@@ -32,6 +33,11 @@ export default Vue.extend({
     contentCols: Number,
     readonly: Boolean,
     type: String,
+  },
+  methods: {
+    updateValue(value: String | number): void {
+      this.$emit('input', value)
+    },
   },
 })
 </script>
