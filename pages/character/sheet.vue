@@ -21,12 +21,13 @@
         <div class="col">
           <AttributesFieldGroup
             class="info-group"
-            v-bind:attributes="character.attributes"
+            :attributes="character.attributes"
+            @attributes="updateAttributes($event)"
             :readonly="!isAuthenticated()"
           />
           <EndurancesFieldGroup
             class="info-group"
-            v-bind:endurances="character.endurances"
+            :endurances="character.endurances"
             :readonly="!isAuthenticated()"
           />
           <BattleInventoryGroup
@@ -38,7 +39,7 @@
         <div class="col">
           <ExpertisesFieldGroup
             class="info-group"
-            v-bind:expertises="character.expertises"
+            :expertises="character.expertises"
             :readonly="!isAuthenticated()"
           />
           <CharacteristicsGroup
@@ -56,6 +57,7 @@
 import Vue from 'vue'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { Character } from '@/assets/classes/character'
+import { Attributes } from '@/assets/classes/attributes'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
@@ -154,6 +156,19 @@ export default Vue.extend({
         .child('life')
 
       lifeRef.set(life)
+    },
+    updateAttributes(attributes: Attributes): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const attributesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('attributes')
+
+      attributesRef.set(attributes)
     },
   },
 })
