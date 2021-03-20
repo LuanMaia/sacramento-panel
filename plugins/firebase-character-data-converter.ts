@@ -12,7 +12,8 @@ import { EnduranceAttributeType } from '@/assets/classes/endurance-attribute-typ
 
 declare module 'vue/types/vue' {
     interface Vue {
-        $convertFirebaseCharacterData(firebaseCharacter: FirebaseCharacter): Character
+        $convertFirebaseCharacterData(firebaseCharacter: FirebaseCharacter): Character,
+        $convertEnduranceEndurancesToFirebase(endurances: Endurances): FirebaseEndurances,
     }
 }
 
@@ -36,6 +37,14 @@ Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharac
     character.battleInventory.weapons = firebaseArrayToArrayOf<BattleItem>(firebaseCharacter.battleInventory?.weapons);
 
     return character;
+}
+
+Vue.prototype.$convertEnduranceEndurancesToFirebase = (endurances: Endurances): FirebaseEndurances => {
+    return {
+        physical: convertEnduranceDiceBonusToFirebase(endurances.physical),
+        mental: convertEnduranceDiceBonusToFirebase(endurances.mental),
+        social: convertEnduranceDiceBonusToFirebase(endurances.social)
+    };
 }
 
 function firebaseArrayToArrayOf<T>(firebaseArray: { String: T } | undefined): Array<T> {
@@ -77,7 +86,23 @@ function convertFirebaseEnduranceDiceBonus(firebaseEnduranceDiceBonus: FirebaseE
     }
 }
 
-class FirebaseCharacter {
+function convertEnduranceDiceBonusToFirebase(enduranceDiceBonus?: EnduranceDiceBonus): FirebaseEnduranceDiceBonus | null {
+    if (!enduranceDiceBonus || !enduranceDiceBonus.attribute || !enduranceDiceBonus.dice) {
+        return null;
+    } else {
+        return {
+            dice: enduranceDiceBonus?.dice,
+            attribute: getEnumKeyByEnumValue(EnduranceAttributeType, enduranceDiceBonus.attribute)
+        };
+    }
+}
+
+function getEnumKeyByEnumValue<T extends { [index: string]: string }>(myEnum: T, enumValue: string): keyof T | undefined {
+    let keys = Object.keys(myEnum).filter(x => myEnum[x] == enumValue);
+    return keys.length > 0 ? keys[0] : undefined;
+}
+
+interface FirebaseCharacter {
     attributes?: Attributes;
     expertises?: Expertises;
     endurances?: FirebaseEndurances;
@@ -91,18 +116,18 @@ class FirebaseCharacter {
     maxLife?: Number;
 }
 
-class FirebaseBattleInventory {
+interface FirebaseBattleInventory {
     weapons?: { String: BattleItem };
     armors?: { String: BattleItem };
 }
 
-class FirebaseEndurances {
+interface FirebaseEndurances {
     physical?: FirebaseEnduranceDiceBonus;
     mental?: FirebaseEnduranceDiceBonus;
     social?: FirebaseEnduranceDiceBonus;
 }
 
-class FirebaseEnduranceDiceBonus {
+interface FirebaseEnduranceDiceBonus {
     attribute?: 'STRENGTH' | 'WIT' | 'CHARISMA';
     dice?: DiceType;
 }

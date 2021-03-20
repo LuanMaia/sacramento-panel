@@ -28,6 +28,7 @@
           <EndurancesFieldGroup
             class="info-group"
             :endurances="character.endurances"
+            @endurances="updateEndurances($event)"
             :readonly="!isAuthenticated()"
           />
           <BattleInventoryGroup
@@ -60,6 +61,7 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { Character } from '@/assets/classes/character'
 import { Attributes } from '@/assets/classes/attributes'
 import { Expertises } from '@/assets/classes/expertises'
+import { Endurances } from '@/assets/classes/endurances'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
@@ -171,6 +173,19 @@ export default Vue.extend({
         .child('attributes')
 
       attributesRef.set(attributes)
+    },
+    updateEndurances(endurances: Endurances): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const attributesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('endurances')
+
+      attributesRef.set(this.$convertEnduranceEndurancesToFirebase(endurances))
     },
     updateExpertises(expertises: Expertises): void {
       const uuidQueryParam = this.$route.query[uuidQueryParamName]
