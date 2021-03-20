@@ -2,7 +2,7 @@
   <div>
     <b-form-group
       label-cols="4"
-      content-cols="4"
+      content-cols="6"
       :label="title"
       :label-for="id"
       label-align-sm="right"

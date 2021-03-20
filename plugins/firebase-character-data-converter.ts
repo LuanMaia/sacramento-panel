@@ -14,6 +14,8 @@ declare module 'vue/types/vue' {
     interface Vue {
         $convertFirebaseCharacterData(firebaseCharacter: FirebaseCharacter): Character,
         $convertEnduranceEndurancesToFirebase(endurances: Endurances): FirebaseEndurances,
+        $convertBattleInventoryToFirebase(battleInventory: BattleInventory): FirebaseBattleInventory,
+        $firebaseArrayFromArrayOf<T extends ArrayElement>(array?: T[]): { [id: string]: T } | null,
     }
 }
 
@@ -47,7 +49,16 @@ Vue.prototype.$convertEnduranceEndurancesToFirebase = (endurances: Endurances): 
     };
 }
 
-function firebaseArrayToArrayOf<T extends ArrayElement>(firebaseArray: { String: T } | undefined): T[] {
+Vue.prototype.$convertBattleInventoryToFirebase = (battleInventory: BattleInventory): FirebaseBattleInventory => {
+    return {
+        armors: firebaseArrayFromArrayOf(battleInventory.armors),
+        weapons: firebaseArrayFromArrayOf(battleInventory.weapons)
+    };
+}
+
+Vue.prototype.$firebaseArrayFromArrayOf = <T extends ArrayElement>(array?: T[]): { [id: string]: T } | null => firebaseArrayFromArrayOf(array)
+
+function firebaseArrayToArrayOf<T extends ArrayElement>(firebaseArray?: { [id: string]: T } | null): T[] {
     if (!firebaseArray) {
         return [];
     } else {
@@ -57,6 +68,20 @@ function firebaseArrayToArrayOf<T extends ArrayElement>(firebaseArray: { String:
 
             return element;
         });
+    }
+}
+
+function firebaseArrayFromArrayOf<T extends ArrayElement>(array?: T[]): { [id: string]: T } | null {
+    if (!array || array.length === 0) {
+        return null;
+    } else {
+        const firebaseArray: { [id: string]: any } = {};
+        array.forEach(element => {
+            firebaseArray[element.uuid] = element;
+            firebaseArray[element.uuid]['uuid'] = null;
+        });
+
+        return firebaseArray;
     }
 }
 
@@ -112,7 +137,7 @@ interface FirebaseCharacter {
     expertises?: Expertises;
     endurances?: FirebaseEndurances;
     battleInventory?: FirebaseBattleInventory;
-    characteristics?: { String: Characteristic };
+    characteristics?: { [id: string]: Characteristic };
     name?: String;
     player?: String;
     description?: String;
@@ -122,8 +147,8 @@ interface FirebaseCharacter {
 }
 
 interface FirebaseBattleInventory {
-    weapons?: { String: BattleItem };
-    armors?: { String: BattleItem };
+    weapons: { [id: string]: BattleItem } | null;
+    armors: { [id: string]: BattleItem } | null;
 }
 
 interface FirebaseEndurances {
@@ -138,5 +163,5 @@ interface FirebaseEnduranceDiceBonus {
 }
 
 interface ArrayElement {
-    uuid: String
+    uuid: string
 }
