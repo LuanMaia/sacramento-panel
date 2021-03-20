@@ -11,8 +11,8 @@
           id="add-characteristic-name-field"
           label="Nome"
           :value="characteristic.name"
-          labelCols="3"
-          contentCols="9"
+          :labelCols="3"
+          :contentCols="9"
         />
         <TextAreaField
           id="add-characteristic-description-field"

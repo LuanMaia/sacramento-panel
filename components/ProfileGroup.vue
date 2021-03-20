@@ -6,8 +6,8 @@
         label="Nome"
         :value="name"
         @input="updateName($event)"
-        labelCols="3"
-        contentCols="6"
+        :labelCols="3"
+        :contentCols="6"
         :readonly="readonly"
       />
       <InputField
@@ -15,8 +15,8 @@
         label="Jogador"
         :value="player"
         @input="updatePlayer($event)"
-        labelCols="3"
-        contentCols="6"
+        :labelCols="3"
+        :contentCols="6"
         :readonly="readonly"
       />
       <InputField
@@ -24,8 +24,8 @@
         label="Conceito"
         :value="description"
         @input="updateDescription($event)"
-        labelCols="3"
-        contentCols="6"
+        :labelCols="3"
+        :contentCols="6"
         :readonly="readonly"
       />
       <InputField
@@ -33,8 +33,8 @@
         label="Experiência"
         :value="exp"
         @input="updateExp($event)"
-        labelCols="3"
-        contentCols="6"
+        :labelCols="3"
+        :contentCols="6"
         :readonly="readonly"
         type="number"
       />
@@ -43,8 +43,8 @@
         label="Vida"
         :value="life"
         @input="updateLife($event)"
-        labelCols="3"
-        contentCols="6"
+        :labelCols="3"
+        :contentCols="6"
         min="0"
         :max="maxLife"
       />

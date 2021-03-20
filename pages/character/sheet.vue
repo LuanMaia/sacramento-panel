@@ -148,7 +148,7 @@ export default Vue.extend({
         .child(`${uuidQueryParam}`)
         .child('exp')
 
-      expRef.set(exp)
+      expRef.set(+exp)
     },
     updateLife(life: Number): void {
       const uuidQueryParam = this.$route.query[uuidQueryParamName]
@@ -161,7 +161,7 @@ export default Vue.extend({
         .child(`${uuidQueryParam}`)
         .child('life')
 
-      lifeRef.set(life)
+      lifeRef.set(+life)
     },
     updateAttributes(attributes: Attributes): void {
       const uuidQueryParam = this.$route.query[uuidQueryParamName]

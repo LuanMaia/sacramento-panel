@@ -8,21 +8,30 @@
     >
       <div>
         <InputField
-          id="add-characteristic-name-field"
+          id="add-battle-item-name-field"
           label="Nome"
-          :value="battleItem.name"
-          labelCols="3"
-          contentCols="9"
+          v-model="battleItem.name"
+          :labelCols="3"
+          :contentCols="9"
         />
         <RatingField
           title="Poder"
-          :value="battleItem.power"
+          v-model="battleItem.power"
+          :labelCols="3"
+          :contentCols="9"
         />
       </div>
 
       <template #modal-footer>
         <div class="w-100">
-          <b-button variant="success" class="float-right"> Adicionar </b-button>
+          <b-button
+            @click="addNewBattleItem()"
+            variant="success"
+            class="float-right"
+            :disabled="!battleItem.name"
+          >
+            Adicionar
+          </b-button>
         </div>
       </template>
     </b-modal>
@@ -31,7 +40,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { BattleItem } from '~/assets/classes/battle-item'
+import { BattleItem } from '@/assets/classes/battle-item'
+import { uuid } from 'vue-uuid'
 
 export default Vue.extend({
   data() {
@@ -44,7 +54,11 @@ export default Vue.extend({
   },
   methods: {
     addNewBattleItem(): void {
-    }
-  }
+      this.battleItem.uuid = uuid.v4()
+      this.$emit('battleItem', this.battleItem)
+      this.battleItem = new BattleItem()
+      this.$bvModal.hide(this.id)
+    },
+  },
 })
 </script>

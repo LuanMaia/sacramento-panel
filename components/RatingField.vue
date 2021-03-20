@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-form-group
-      label-cols="4"
-      content-cols="6"
+      :label-cols="labelCols"
+      :content-cols="contentCols"
       :label="title"
       :label-for="id"
       label-align-sm="right"
@@ -33,6 +33,14 @@ export default Vue.extend({
     title: String,
     id: String,
     readonly: Boolean,
+    labelCols: {
+      type: Number,
+      default: 4
+    },
+    contentCols: {
+      type: Number,
+      default: 6
+    },
   },
   methods: {
     updateValue(value: Number): void {

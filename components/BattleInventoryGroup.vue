@@ -28,7 +28,12 @@
             <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
           </b-button>
         </div>
-        <b-button class="col-12" variant="outline-success" v-if="!readonly">
+        <b-button
+          class="col-12"
+          variant="outline-success"
+          @click="showAddWeaponModal"
+          v-if="!readonly"
+        >
           Adicionar
         </b-button>
       </b-form-group>
@@ -60,11 +65,27 @@
             <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
           </b-button>
         </div>
-        <b-button class="col-12" variant="outline-success" v-if="!readonly">
+        <b-button
+          class="col-12"
+          variant="outline-success"
+          @click="showAddArmorModal"
+          v-if="!readonly"
+        >
           Adicionar
         </b-button>
       </b-form-group>
     </b-card>
+
+    <BattleItemModal
+      id="add-weapon-modal"
+      v-if="!readonly"
+      @battleItem="addWeapon($event)"
+    />
+    <BattleItemModal
+      id="add-armor-modal"
+      v-if="!readonly"
+      @battleItem="addArmor($event)"
+    />
   </div>
 </template>
 
@@ -91,6 +112,18 @@ export default Vue.extend({
     updateArmor(index: number, newBattleItem: BattleItem): void {
       if (this.battleInventory.armors) {
         this.battleInventory.armors[index] = newBattleItem
+        this.$emit('battleInventory', this.battleInventory)
+      }
+    },
+    addWeapon(newBattleItem: BattleItem): void {
+      if (this.battleInventory.weapons) {
+        this.battleInventory.weapons.push(newBattleItem)
+        this.$emit('battleInventory', this.battleInventory)
+      }
+    },
+    addArmor(newBattleItem: BattleItem): void {
+      if (this.battleInventory.armors) {
+        this.battleInventory.armors.push(newBattleItem)
         this.$emit('battleInventory', this.battleInventory)
       }
     },
@@ -143,6 +176,12 @@ export default Vue.extend({
             this.deleteArmor(index)
           }
         })
+    },
+    showAddWeaponModal() {
+      this.$bvModal.show('add-weapon-modal')
+    },
+    showAddArmorModal() {
+      this.$bvModal.show('add-armor-modal')
     },
   },
 })
