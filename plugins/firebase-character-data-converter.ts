@@ -47,11 +47,16 @@ Vue.prototype.$convertEnduranceEndurancesToFirebase = (endurances: Endurances): 
     };
 }
 
-function firebaseArrayToArrayOf<T>(firebaseArray: { String: T } | undefined): Array<T> {
+function firebaseArrayToArrayOf<T extends ArrayElement>(firebaseArray: { String: T } | undefined): T[] {
     if (!firebaseArray) {
         return [];
     } else {
-        return Object.values<T>(firebaseArray);
+        return Object.entries(firebaseArray).map(entry => {
+            const element = entry[1];
+            element.uuid = entry[0];
+
+            return element;
+        });
     }
 }
 
@@ -73,7 +78,7 @@ function convertFirebaseEndurances(firebaseEndurances: FirebaseEndurances | unde
     return endurances;
 }
 
-function convertFirebaseEnduranceDiceBonus(firebaseEnduranceDiceBonus: FirebaseEnduranceDiceBonus | undefined): EnduranceDiceBonus {
+function convertFirebaseEnduranceDiceBonus(firebaseEnduranceDiceBonus: FirebaseEnduranceDiceBonus | null): EnduranceDiceBonus {
     const enduranceDiceBonus = new EnduranceDiceBonus();
 
     if (!firebaseEnduranceDiceBonus || !firebaseEnduranceDiceBonus.attribute) {
@@ -122,12 +127,16 @@ interface FirebaseBattleInventory {
 }
 
 interface FirebaseEndurances {
-    physical?: FirebaseEnduranceDiceBonus;
-    mental?: FirebaseEnduranceDiceBonus;
-    social?: FirebaseEnduranceDiceBonus;
+    physical: FirebaseEnduranceDiceBonus | null;
+    mental: FirebaseEnduranceDiceBonus | null;
+    social: FirebaseEnduranceDiceBonus | null;
 }
 
 interface FirebaseEnduranceDiceBonus {
     attribute?: 'STRENGTH' | 'WIT' | 'CHARISMA';
     dice?: DiceType;
+}
+
+interface ArrayElement {
+    uuid: String
 }
