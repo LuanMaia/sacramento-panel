@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>{{ characteristic.name }}: </span>
+    <strong>{{ characteristic.name }}: </strong>
     <span>{{ characteristic.description }}</span>
   </div>
 </template>
