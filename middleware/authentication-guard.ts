@@ -1,13 +1,11 @@
 import { Middleware } from '@nuxt/types'
 
 const authenticationGuard: Middleware = (context) => {
-    setTimeout(() => {
-        const isAuthenticated = context.$fire.auth.currentUser != null
-
-        if (!isAuthenticated) {
+    context.$fire.auth.onAuthStateChanged((user) => {
+        if (!user) {
             context.redirect('/login')
         }
-    }, 1000)
+    })
 }
 
 export default authenticationGuard

@@ -1,5 +1,7 @@
 <template>
-  <div class="container"></div>
+  <div>
+    <Navbar />
+  </div>
 </template>
 
 <script lang="ts">
@@ -7,8 +9,6 @@ import Vue from 'vue'
 
 export default Vue.extend({
   middleware: 'authentication-guard',
-  mounted() {
-    this.$router.push({ path: '/character/sheet' })
-  },
+  mounted() {},
 })
 </script>

@@ -1,59 +1,62 @@
 <template>
-  <div class="container">
-    <div class="character-sheet">
-      <div class="character-profile">
-        <ProfileGroup
-          :name="character.name"
-          @name="updateName($event)"
-          :player="character.player"
-          @player="updatePlayer($event)"
-          :description="character.description"
-          @description="updateDescription($event)"
-          :exp="character.exp"
-          @exp="updateExp($event)"
-          :life="character.life"
-          @life="updateLife($event)"
-          :maxLife="character.maxLife"
-          :readonly="!isAuthenticated()"
-        />
-      </div>
-      <div class="character-info row">
-        <div class="col">
-          <AttributesFieldGroup
-            class="info-group"
-            :attributes="character.attributes"
-            @attributes="updateAttributes($event)"
-            :readonly="!isAuthenticated()"
-          />
-          <EndurancesFieldGroup
-            class="info-group"
-            :endurances="character.endurances"
-            @endurances="updateEndurances($event)"
-            :readonly="!isAuthenticated()"
-          />
-          <BattleInventoryGroup
-            class="info-group"
-            :battleInventory="character.battleInventory"
-            @battleInventory="updateBattleInventory($event)"
+  <div>
+    <Navbar />
+    <main class="container">
+      <div class="character-sheet">
+        <div class="character-profile">
+          <ProfileGroup
+            :name="character.name"
+            @name="updateName($event)"
+            :player="character.player"
+            @player="updatePlayer($event)"
+            :description="character.description"
+            @description="updateDescription($event)"
+            :exp="character.exp"
+            @exp="updateExp($event)"
+            :life="character.life"
+            @life="updateLife($event)"
+            :maxLife="character.maxLife"
             :readonly="!isAuthenticated()"
           />
         </div>
-        <div class="col">
-          <ExpertisesFieldGroup
-            class="info-group"
-            :expertises="character.expertises"
-            @expertises="updateExpertises($event)"
-            :readonly="!isAuthenticated()"
-          />
-          <CharacteristicsGroup
-            class="info-group"
-            :characteristics="character.characteristics"
-            @characteristics="updateCharacteristics($event)"
-            :readonly="!isAuthenticated()"
-          />
+        <div class="character-info row">
+          <div class="col">
+            <AttributesFieldGroup
+              class="info-group"
+              :attributes="character.attributes"
+              @attributes="updateAttributes($event)"
+              :readonly="!isAuthenticated()"
+            />
+            <EndurancesFieldGroup
+              class="info-group"
+              :endurances="character.endurances"
+              @endurances="updateEndurances($event)"
+              :readonly="!isAuthenticated()"
+            />
+            <BattleInventoryGroup
+              class="info-group"
+              :battleInventory="character.battleInventory"
+              @battleInventory="updateBattleInventory($event)"
+              :readonly="!isAuthenticated()"
+            />
+          </div>
+          <div class="col">
+            <ExpertisesFieldGroup
+              class="info-group"
+              :expertises="character.expertises"
+              @expertises="updateExpertises($event)"
+              :readonly="!isAuthenticated()"
+            />
+            <CharacteristicsGroup
+              class="info-group"
+              :characteristics="character.characteristics"
+              @characteristics="updateCharacteristics($event)"
+              :readonly="!isAuthenticated()"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -73,17 +76,22 @@ Vue.use(BootstrapVueIcons)
 const uuidQueryParamName = 'character-uuid'
 
 export default Vue.extend({
-  mounted() {
-    this.listenToCharacterDataChange()
-  },
   data() {
     return {
       character: new Character(),
+      uuidQueryParam: this.$route.query[uuidQueryParamName],
+    }
+  },
+  mounted() {
+    if (this.uuidQueryParam) {
+      this.listenToCharacterDataChange()
+    } else {
+      this.$router.push({ path: '/' })
     }
   },
   methods: {
     listenToCharacterDataChange(): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -101,7 +109,7 @@ export default Vue.extend({
       return this.$fire.auth.currentUser != null
     },
     updateName(name: String): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -114,7 +122,7 @@ export default Vue.extend({
       nameRef.set(name)
     },
     updatePlayer(player: String): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -127,7 +135,7 @@ export default Vue.extend({
       playerRef.set(player)
     },
     updateDescription(description: String): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -140,7 +148,7 @@ export default Vue.extend({
       descriptionRef.set(description)
     },
     updateExp(exp: Number): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -153,7 +161,7 @@ export default Vue.extend({
       expRef.set(+exp)
     },
     updateLife(life: Number): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -166,7 +174,7 @@ export default Vue.extend({
       lifeRef.set(+life)
     },
     updateAttributes(attributes: Attributes): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -179,7 +187,7 @@ export default Vue.extend({
       attributesRef.set(attributes)
     },
     updateEndurances(endurances: Endurances): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -192,7 +200,7 @@ export default Vue.extend({
       attributesRef.set(this.$convertEnduranceEndurancesToFirebase(endurances))
     },
     updateBattleInventory(battleInventory: BattleInventory): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -205,7 +213,7 @@ export default Vue.extend({
       attributesRef.set(this.$convertBattleInventoryToFirebase(battleInventory))
     },
     updateExpertises(expertises: Expertises): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
@@ -218,7 +226,7 @@ export default Vue.extend({
       expertisesRef.set(expertises)
     },
     updateCharacteristics(characteristics: Characteristic[]): void {
-      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      const uuidQueryParam = this.uuidQueryParam
       if (!uuidQueryParam) {
         return
       }
