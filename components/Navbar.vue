@@ -2,12 +2,12 @@
   <div v-if="isAuthenticated">
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item href="#" v-b-toggle.characters-sidebar
-          >Personagens</b-nav-item
-        >
+        <b-nav-item v-b-toggle.characters-sidebar>
+          Personagens
+        </b-nav-item>
 
         <b-nav-item-dropdown text="Criar link" left>
-          <b-dropdown-item href="#">Vida do personagem</b-dropdown-item>
+          <b-dropdown-item>Vida do personagem</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -18,7 +18,10 @@
       </b-navbar-nav>
     </b-navbar>
 
-    <CharactersSidebar @character="navigateToCharacterSheet($event)" />
+    <CharactersSidebar
+      id="characters-sidebar"
+      @character="navigateToCharacterSheet($event)"
+    />
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-sidebar
-      id="characters-sidebar"
+      :id="id"
       title="Personagens"
       bg-variant="dark"
       text-variant="light"
@@ -45,6 +45,9 @@ Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
 export default Vue.extend({
+  props: {
+    id: String
+  },
   data() {
     return {
       characters: new Array<Character>(),
@@ -53,6 +56,7 @@ export default Vue.extend({
   },
   created() {
     this.$fire.database.ref('character').on('value', (snapshot) => {
+      this.characters = []
       const characters = snapshot.val()
       const firebaseCharacters: any[] = this.$firebaseArrayToArrayOf<any>(
         characters
