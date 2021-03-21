@@ -16,5 +16,6 @@ export class Character {
     exp?: Number;
     life?: Number;
     maxLife?: Number;
+    public?: boolean;
     uuid!: string;
 }

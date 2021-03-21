@@ -2,12 +2,19 @@
   <div v-if="isAuthenticated">
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item v-b-toggle.characters-sidebar> Personagens </b-nav-item>
+        <b-nav-item-dropdown text="Personagens" left>
+          <b-dropdown-item v-b-toggle.characters-sidebar>
+            Fichas
+          </b-dropdown-item>
+          <b-dropdown-item @click="showNewCharacterModal()">
+            Criar
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
 
         <b-nav-item-dropdown text="Criar link" left>
-          <b-dropdown-item @click="navigateToLifeLinkGenerator()"
-            >Vida do personagem</b-dropdown-item
-          >
+          <b-dropdown-item @click="navigateToLifeLinkGenerator()">
+            Vida do personagem
+          </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -22,6 +29,8 @@
       id="characters-sidebar"
       @character="navigateToCharacterSheet($event)"
     />
+
+    <NewCharacterModal id="navbar-new-character-modal" />
   </div>
 </template>
 
@@ -63,6 +72,9 @@ export default Vue.extend({
     },
     navigateToLifeLinkGenerator(): void {
       this.$router.replace({ name: 'character-life-generator' })
+    },
+    showNewCharacterModal() {
+      this.$bvModal.show('navbar-new-character-modal')
     },
   },
   created() {
