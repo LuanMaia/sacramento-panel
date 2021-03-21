@@ -4,43 +4,52 @@
       <div class="character-profile">
         <ProfileGroup
           :name="character.name"
+          @name="updateName($event)"
           :player="character.player"
+          @player="updatePlayer($event)"
           :description="character.description"
+          @description="updateDescription($event)"
           :exp="character.exp"
+          @exp="updateExp($event)"
           :life="character.life"
-          :maxLife="character.maxLife"
           @life="updateLife($event)"
-          :readonly="true"
+          :maxLife="character.maxLife"
+          :readonly="!isAuthenticated()"
         />
       </div>
       <div class="character-info row">
         <div class="col">
           <AttributesFieldGroup
             class="info-group"
-            v-bind:attributes="character.attributes"
-            :readonly="true"
+            :attributes="character.attributes"
+            @attributes="updateAttributes($event)"
+            :readonly="!isAuthenticated()"
           />
           <EndurancesFieldGroup
             class="info-group"
-            v-bind:endurances="character.endurances"
-            :readonly="true"
+            :endurances="character.endurances"
+            @endurances="updateEndurances($event)"
+            :readonly="!isAuthenticated()"
           />
           <BattleInventoryGroup
             class="info-group"
             :battleInventory="character.battleInventory"
-            :readonly="true"
+            @battleInventory="updateBattleInventory($event)"
+            :readonly="!isAuthenticated()"
           />
         </div>
         <div class="col">
           <ExpertisesFieldGroup
             class="info-group"
-            v-bind:expertises="character.expertises"
-            :readonly="true"
+            :expertises="character.expertises"
+            @expertises="updateExpertises($event)"
+            :readonly="!isAuthenticated()"
           />
           <CharacteristicsGroup
             class="info-group"
             :characteristics="character.characteristics"
-            :readonly="true"
+            @characteristics="updateCharacteristics($event)"
+            :readonly="!isAuthenticated()"
           />
         </div>
       </div>
@@ -52,6 +61,11 @@
 import Vue from 'vue'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { Character } from '@/assets/classes/character'
+import { Attributes } from '@/assets/classes/attributes'
+import { Expertises } from '@/assets/classes/expertises'
+import { Endurances } from '@/assets/classes/endurances'
+import { BattleInventory } from '@/assets/classes/battle-inventory'
+import { Characteristic } from '@/assets/classes/characteristic'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
@@ -83,6 +97,61 @@ export default Vue.extend({
         this.character = this.$convertFirebaseCharacterData(characterData)
       })
     },
+    isAuthenticated(): boolean {
+      return this.$fire.auth.currentUser != null
+    },
+    updateName(name: String): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const nameRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('name')
+
+      nameRef.set(name)
+    },
+    updatePlayer(player: String): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const playerRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('player')
+
+      playerRef.set(player)
+    },
+    updateDescription(description: String): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const descriptionRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('description')
+
+      descriptionRef.set(description)
+    },
+    updateExp(exp: Number): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const expRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('exp')
+
+      expRef.set(+exp)
+    },
     updateLife(life: Number): void {
       const uuidQueryParam = this.$route.query[uuidQueryParamName]
       if (!uuidQueryParam) {
@@ -94,7 +163,72 @@ export default Vue.extend({
         .child(`${uuidQueryParam}`)
         .child('life')
 
-      lifeRef.set(life)
+      lifeRef.set(+life)
+    },
+    updateAttributes(attributes: Attributes): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const attributesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('attributes')
+
+      attributesRef.set(attributes)
+    },
+    updateEndurances(endurances: Endurances): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const attributesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('endurances')
+
+      attributesRef.set(this.$convertEnduranceEndurancesToFirebase(endurances))
+    },
+    updateBattleInventory(battleInventory: BattleInventory): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const attributesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('battleInventory')
+
+      attributesRef.set(this.$convertBattleInventoryToFirebase(battleInventory))
+    },
+    updateExpertises(expertises: Expertises): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const expertisesRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('expertises')
+
+      expertisesRef.set(expertises)
+    },
+    updateCharacteristics(characteristics: Characteristic[]): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const characteristicsRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('characteristics')
+
+      characteristicsRef.set(this.$firebaseArrayFromArrayOf(characteristics))
     },
   },
 })

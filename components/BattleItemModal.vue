@@ -1,36 +1,34 @@
 <template>
   <div>
     <b-modal
-      title="Adicionando vantagem/desvantagem"
+      title="Adicionando item"
       :id="id"
       header-bg-variant="success"
       header-text-variant="light"
     >
       <div>
         <InputField
-          id="add-characteristic-name-field"
+          id="add-battle-item-name-field"
           label="Nome"
-          v-model="characteristic.name"
+          v-model="battleItem.name"
           :labelCols="3"
           :contentCols="9"
         />
-        <TextAreaField
-          id="add-characteristic-description-field"
-          label="Descrição"
-          v-model="characteristic.description"
+        <RatingField
+          title="Poder"
+          v-model="battleItem.power"
           :labelCols="3"
           :contentCols="9"
-          :rows="4"
         />
       </div>
 
       <template #modal-footer>
         <div class="w-100">
           <b-button
+            @click="addNewBattleItem()"
             variant="success"
             class="float-right"
-            @click="emitCharacteristic()"
-            :disabled="!characteristic.name || !characteristic.description"
+            :disabled="!battleItem.name"
           >
             Adicionar
           </b-button>
@@ -42,25 +40,25 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Characteristic } from '@/assets/classes/characteristic'
+import { BattleItem } from '@/assets/classes/battle-item'
 import { uuid } from 'vue-uuid'
 
 export default Vue.extend({
   data() {
     return {
-      characteristic: new Characteristic(),
+      battleItem: new BattleItem(),
     }
   },
   props: {
     id: String,
   },
   methods: {
-    emitCharacteristic(): void {
-      this.characteristic.uuid = uuid.v4()
-      this.$emit('characteristic', this.characteristic)
-      this.characteristic = new Characteristic()
+    addNewBattleItem(): void {
+      this.battleItem.uuid = uuid.v4()
+      this.$emit('battleItem', this.battleItem)
+      this.battleItem = new BattleItem()
       this.$bvModal.hide(this.id)
-    }
-  }
+    },
+  },
 })
 </script>

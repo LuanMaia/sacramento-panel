@@ -5,7 +5,7 @@
       content-cols="4"
       :label="title"
       label-size="lg"
-      :description="`${diceBonus.attribute} + ${diceBonus.dice}`"
+      :description="diceBonus.attribute && diceBonus.dice ? `${diceBonus.attribute} + ${diceBonus.dice}` : undefined"
       v-if="!readonly"
     >
       <b-form-group
@@ -16,7 +16,8 @@
         label-size="sm"
       >
         <b-form-select
-          v-model="diceBonus.attribute"
+          :value="diceBonus.attribute"
+          @input="updateAttribute($event)"
           :options="typeOptions"
         ></b-form-select>
       </b-form-group>
@@ -28,7 +29,8 @@
         label-size="sm"
       >
         <b-form-select
-          v-model="diceBonus.dice"
+          :value="diceBonus.dice"
+          @input="updateDice($event)"
           :options="diceOptions"
         ></b-form-select>
       </b-form-group>
@@ -36,7 +38,7 @@
 
     <p v-else>
       <span class="endurance-field-title">{{ title }}: </span>
-      <span>{{ diceBonus.attribute }} + {{ diceBonus.dice }}</span>
+      <span v-if="diceBonus.attribute && diceBonus.dice">{{ diceBonus.attribute }} + {{ diceBonus.dice }}</span>
     </p>
   </div>
 </template>
@@ -61,6 +63,16 @@ export default Vue.extend({
       default: new EnduranceDiceBonus(),
     },
     readonly: Boolean,
+  },
+  methods: {
+    updateAttribute(attribute: EnduranceAttributeType): void {
+      this.diceBonus.attribute = attribute
+      this.$emit('diceBonus', this.diceBonus)
+    },
+    updateDice(dice: DiceType): void {
+      this.diceBonus.dice = dice
+      this.$emit('diceBonus', this.diceBonus)
+    },
   },
 })
 </script>

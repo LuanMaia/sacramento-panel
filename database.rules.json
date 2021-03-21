@@ -3,6 +3,8 @@
     ".read": false,
     ".write": false,
     "character": {
+      ".read": "auth != null",
+      ".write": "auth != null",
       "$character_id": {
         ".read": "data.child('public').exists() && data.child('public').val() === true",
         "life": {

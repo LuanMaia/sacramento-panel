@@ -6,13 +6,20 @@
       title="Vantagens e desvantagens"
       class="characteristics-card-container"
     >
-      <CharacteristicLine
+      <p
+        class="d-flex justify-content-between align-items-center"
         v-for="(characteristic, index) in characteristics"
         :key="index"
-        :characteristic="characteristic"
-        :index="index"
-        :readonly="readonly"
-      />
+      >
+        <Characteristic :characteristic="characteristic" :readonly="readonly" />
+        <b-button
+          v-if="!readonly"
+          variant="outline-danger"
+          @click="showDeleteCharacteristicModal(index)"
+        >
+          <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+        </b-button>
+      </p>
       <b-button
         class="col-10"
         variant="outline-success"
@@ -23,12 +30,17 @@
       </b-button>
     </b-card>
 
-    <CharacteristicModal id="add-characteristic-modal" v-if="!readonly" />
+    <CharacteristicModal
+      id="add-characteristic-modal"
+      v-if="!readonly"
+      @characteristic="addNewCharacteristics($event)"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { Characteristic } from '@/assets/classes/characteristic'
 
 export default Vue.extend({
   props: {
@@ -36,8 +48,32 @@ export default Vue.extend({
     readonly: Boolean,
   },
   methods: {
-    showAddCharacteristicModal() {
+    showAddCharacteristicModal(): void {
       this.$bvModal.show('add-characteristic-modal')
+    },
+    addNewCharacteristics(characteristic: Characteristic): void {
+      this.characteristics.push(characteristic)
+      this.$emit('characteristics', this.characteristics)
+    },
+    showDeleteCharacteristicModal(index: number) {
+      this.$bvModal
+        .msgBoxConfirm('Você tem certeza que deseja excluir?', {
+          title: 'Excluindo vantagem/desvantagem',
+          headerBgVariant: 'danger',
+          headerTextVariant: 'light',
+          okVariant: 'danger',
+          okTitle: 'Confirmar',
+          cancelTitle: 'Cancelar',
+          footerClass: 'p-2',
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((shouldDelete: Boolean) => {
+          if (shouldDelete) {
+            this.characteristics.splice(index, 1)
+            this.$emit('characteristics', this.characteristics)
+          }
+        })
     },
   },
 })
