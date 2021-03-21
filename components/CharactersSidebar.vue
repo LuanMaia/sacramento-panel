@@ -1,0 +1,96 @@
+<template>
+  <div>
+    <b-sidebar
+      id="characters-sidebar"
+      title="Personagens"
+      bg-variant="dark"
+      text-variant="light"
+      shadow
+    >
+      <template #default="{ hide }">
+        <b-input-group id="characters-search-group" class="col-12">
+          <template #prepend>
+            <b-input-group-text>
+              <b-icon icon="search"></b-icon>
+            </b-input-group-text>
+          </template>
+          <b-form-input v-model="filterInput"></b-form-input>
+        </b-input-group>
+        <div class="px-3 py-2">
+          <b-button-group class="col-12" vertical>
+            <b-button
+              variant="outline-light"
+              v-for="(character, index) in charactersFiltered()"
+              :key="index"
+              @click="
+                hide()
+                chooseCharacter(character)
+              "
+            >
+              {{ character.name }}
+            </b-button>
+          </b-button-group>
+        </div>
+      </template>
+    </b-sidebar>
+  </div>
+</template>
+
+<script lang="ts">
+import Vue from 'vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
+import { Character } from '@/assets/classes/character'
+
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
+
+export default Vue.extend({
+  data() {
+    return {
+      characters: new Array<Character>(),
+      filterInput: '',
+    }
+  },
+  created() {
+    this.$fire.database.ref('character').on('value', (snapshot) => {
+      const characters = snapshot.val()
+      const firebaseCharacters: any[] = this.$firebaseArrayToArrayOf<any>(
+        characters
+      )
+
+      firebaseCharacters.forEach((firebaseCharacter) => {
+        const character = this.$convertFirebaseCharacterData(firebaseCharacter)
+        character.uuid = firebaseCharacter['uuid']
+        this.characters.push(character)
+      })
+    })
+  },
+  methods: {
+    charactersFiltered() {
+      return this.characters.filter(
+        (character) =>
+          !this.filterInput ||
+          character.name
+            ?.toLowerCase()
+            .includes(this.filterInput.toLowerCase()) ||
+          character.player
+            ?.toLowerCase()
+            .includes(this.filterInput.toLowerCase())
+      )
+    },
+    chooseCharacter(character: Character): void {
+      this.$emit('character', character)
+    },
+  },
+})
+</script>
+
+<style lang="scss">
+#characters-search-group {
+  margin: 0.5rem 0;
+}
+
+#characters-search-button {
+  margin-left: 2px;
+}
+</style>

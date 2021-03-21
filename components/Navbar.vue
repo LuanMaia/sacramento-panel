@@ -2,7 +2,9 @@
   <div v-if="isAuthenticated">
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item href="#">Personagens</b-nav-item>
+        <b-nav-item href="#" v-b-toggle.characters-sidebar
+          >Personagens</b-nav-item
+        >
 
         <b-nav-item-dropdown text="Criar link" left>
           <b-dropdown-item href="#">Vida do personagem</b-dropdown-item>
@@ -15,11 +17,14 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
+
+    <CharactersSidebar @character="navigateToCharacterSheet($event)" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { Character } from '@/assets/classes/character'
 
 export default Vue.extend({
   data() {
@@ -30,6 +35,7 @@ export default Vue.extend({
   methods: {
     singOut(): void {
       this.$fire.auth.signOut()
+      this.$router.replace({ path: '/login' })
     },
     subscribeToAuthStateChanges(): void {
       this.$fire.auth.onAuthStateChanged((user) => {
@@ -45,6 +51,12 @@ export default Vue.extend({
       } else {
         return undefined
       }
+    },
+    navigateToCharacterSheet(character: Character): void {
+      this.$router.replace({
+        name: 'character-sheet',
+        query: { ...this.$route.query, 'character-uuid': character.uuid },
+      })
     },
   },
   created() {
