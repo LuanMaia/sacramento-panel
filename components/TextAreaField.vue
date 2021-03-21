@@ -9,7 +9,8 @@
     >
       <b-form-textarea
         :id="id"
-        :v-model="value"
+        :value="value"
+        @input="updateValue($event)"
         :placeholder="placeholder"
         :rows="rows"
         :max-rows="maxRows"
@@ -34,5 +35,10 @@ export default Vue.extend({
     maxRows: Number,
     plaintext: Boolean,
   },
+  methods: {
+    updateValue(value: string): void {
+      this.$emit('input', value)
+    }
+  }
 })
 </script>

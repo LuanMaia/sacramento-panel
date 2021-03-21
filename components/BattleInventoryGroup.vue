@@ -9,7 +9,7 @@
         label-size="lg"
       >
         <div
-          class="row justify-content-between align-items-start"
+          class="d-flex justify-content-between align-items-start"
           v-for="(battleItem, index) in battleInventory.weapons"
           :key="index"
         >
@@ -46,7 +46,7 @@
         label-size="lg"
       >
         <div
-          class="row justify-content-between align-items-start"
+          class="d-flex justify-content-between align-items-start"
           v-for="(battleItem, index) in battleInventory.armors"
           :key="index"
         >

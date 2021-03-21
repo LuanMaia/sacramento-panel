@@ -48,6 +48,7 @@
           <CharacteristicsGroup
             class="info-group"
             :characteristics="character.characteristics"
+            @characteristics="updateCharacteristics($event)"
             :readonly="!isAuthenticated()"
           />
         </div>
@@ -64,6 +65,7 @@ import { Attributes } from '@/assets/classes/attributes'
 import { Expertises } from '@/assets/classes/expertises'
 import { Endurances } from '@/assets/classes/endurances'
 import { BattleInventory } from '@/assets/classes/battle-inventory'
+import { Characteristic } from '@/assets/classes/characteristic'
 
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
@@ -214,6 +216,19 @@ export default Vue.extend({
         .child('expertises')
 
       expertisesRef.set(expertises)
+    },
+    updateCharacteristics(characteristics: Characteristic[]): void {
+      const uuidQueryParam = this.$route.query[uuidQueryParamName]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const characteristicsRef = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('characteristics')
+
+      characteristicsRef.set(this.$firebaseArrayFromArrayOf(characteristics))
     },
   },
 })
