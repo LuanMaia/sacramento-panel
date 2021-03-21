@@ -1,9 +1,10 @@
 <template>
-  <div class="glitch" :class="`gl-${glitchType}`">
-    <p class="life-text" :data-text="`${characterLife}/${characterMaxLife}`" v-if="characterLife != null" :style="`color: ${textColor};`">
-      {{ characterLife }}/{{ characterMaxLife }}
-    </p>
-  </div>
+  <LiveStreamLife
+    :characterLife="characterLife"
+    :characterMaxLife="characterMaxLife"
+    :textColor="textColor"
+    :glitchType="glitchType"
+  />
 </template>
 
 <script lang="ts">
@@ -19,7 +20,7 @@ export default Vue.extend({
       characterLife: 0,
       characterMaxLife: 0,
       textColor: 'white',
-      glitchType: 1
+      glitchType: 1,
     }
   },
   created() {
@@ -29,11 +30,11 @@ export default Vue.extend({
 
     const textColor = this.$route.query[TEXT_COLOR_QUERY_PARAM_NAME]
     if (typeof textColor === 'string') {
-        this.textColor = textColor
+      this.textColor = textColor
     }
     const glitchType = this.$route.query[GLITCH_TYPE]
     if (typeof glitchType === 'string') {
-        this.glitchType = +glitchType
+      this.glitchType = +glitchType
     }
   },
   methods: {
@@ -75,7 +76,7 @@ export default Vue.extend({
 
 <style lang="scss">
 .life-text {
-    font-size: 70vh;
-    font-family: BenderBlack;
+  font-size: 70vh;
+  font-family: BenderBlack;
 }
 </style>

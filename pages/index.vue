@@ -9,6 +9,5 @@ import Vue from 'vue'
 
 export default Vue.extend({
   middleware: 'authentication-guard',
-  mounted() {},
 })
 </script>

@@ -2,12 +2,12 @@
   <div v-if="isAuthenticated">
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item v-b-toggle.characters-sidebar>
-          Personagens
-        </b-nav-item>
+        <b-nav-item v-b-toggle.characters-sidebar> Personagens </b-nav-item>
 
         <b-nav-item-dropdown text="Criar link" left>
-          <b-dropdown-item>Vida do personagem</b-dropdown-item>
+          <b-dropdown-item @click="navigateToLifeLinkGenerator()"
+            >Vida do personagem</b-dropdown-item
+          >
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -60,6 +60,9 @@ export default Vue.extend({
         name: 'character-sheet',
         query: { ...this.$route.query, 'character-uuid': character.uuid },
       })
+    },
+    navigateToLifeLinkGenerator(): void {
+      this.$router.replace({ name: 'character-life-generator' })
     },
   },
   created() {
