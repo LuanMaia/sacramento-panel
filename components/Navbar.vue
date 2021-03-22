@@ -2,10 +2,19 @@
   <div v-if="isAuthenticated">
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
-        <b-nav-item href="#">Personagens</b-nav-item>
+        <b-nav-item-dropdown text="Personagens" left>
+          <b-dropdown-item v-b-toggle.characters-sidebar>
+            Fichas
+          </b-dropdown-item>
+          <b-dropdown-item @click="showNewCharacterModal()">
+            Criar
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
 
         <b-nav-item-dropdown text="Criar link" left>
-          <b-dropdown-item href="#">Vida do personagem</b-dropdown-item>
+          <b-dropdown-item @click="navigateToLifeLinkGenerator()">
+            Vida do personagem
+          </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -15,11 +24,19 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
+
+    <CharactersSidebar
+      id="characters-sidebar"
+      @character="navigateToCharacterSheet($event)"
+    />
+
+    <NewCharacterModal id="navbar-new-character-modal" />
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { Character } from '@/assets/classes/character'
 
 export default Vue.extend({
   data() {
@@ -30,6 +47,7 @@ export default Vue.extend({
   methods: {
     singOut(): void {
       this.$fire.auth.signOut()
+      this.$router.replace({ path: '/login' })
     },
     subscribeToAuthStateChanges(): void {
       this.$fire.auth.onAuthStateChanged((user) => {
@@ -45,6 +63,18 @@ export default Vue.extend({
       } else {
         return undefined
       }
+    },
+    navigateToCharacterSheet(character: Character): void {
+      this.$router.replace({
+        name: 'character-sheet',
+        query: { ...this.$route.query, 'character-uuid': character.uuid },
+      })
+    },
+    navigateToLifeLinkGenerator(): void {
+      this.$router.replace({ name: 'character-life-generator' })
+    },
+    showNewCharacterModal() {
+      this.$bvModal.show('navbar-new-character-modal')
     },
   },
   created() {

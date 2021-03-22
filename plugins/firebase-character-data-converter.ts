@@ -16,10 +16,11 @@ declare module 'vue/types/vue' {
         $convertEnduranceEndurancesToFirebase(endurances: Endurances): FirebaseEndurances,
         $convertBattleInventoryToFirebase(battleInventory: BattleInventory): FirebaseBattleInventory,
         $firebaseArrayFromArrayOf<T extends ArrayElement>(array?: T[]): { [id: string]: T } | null,
+        $firebaseArrayToArrayOf<T extends ArrayElement>(firebaseArray?: { [id: string]: T } | null): T[],
     }
 }
 
-Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharacter) => {
+Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharacter): Character => {
     const character = new Character();
 
     character.attributes = firebaseCharacter.attributes;
@@ -31,6 +32,7 @@ Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharac
     character.exp = firebaseCharacter.exp;
     character.life = firebaseCharacter.life;
     character.maxLife = firebaseCharacter.maxLife;
+    character.public = firebaseCharacter.public;
 
     character.characteristics = firebaseArrayToArrayOf<Characteristic>(firebaseCharacter.characteristics);
 
@@ -57,6 +59,8 @@ Vue.prototype.$convertBattleInventoryToFirebase = (battleInventory: BattleInvent
 }
 
 Vue.prototype.$firebaseArrayFromArrayOf = <T extends ArrayElement>(array?: T[]): { [id: string]: T } | null => firebaseArrayFromArrayOf(array)
+
+Vue.prototype.$firebaseArrayToArrayOf = <T extends ArrayElement>(firebaseArray?: { [id: string]: T } | null): T[] => firebaseArrayToArrayOf(firebaseArray)
 
 function firebaseArrayToArrayOf<T extends ArrayElement>(firebaseArray?: { [id: string]: T } | null): T[] {
     if (!firebaseArray) {
@@ -144,6 +148,7 @@ interface FirebaseCharacter {
     exp?: Number;
     life?: Number;
     maxLife?: Number;
+    public?: boolean;
 }
 
 interface FirebaseBattleInventory {

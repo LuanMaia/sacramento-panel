@@ -82,6 +82,18 @@ export default Vue.extend({
       uuidQueryParam: this.$route.query[uuidQueryParamName],
     }
   },
+  beforeRouteUpdate(to, from, next) {
+    if (to.path === this.$route.path) {
+      this.stopListeningCharacterDataChange()
+      this.uuidQueryParam = to.query[uuidQueryParamName]
+      if (this.uuidQueryParam) {
+        this.listenToCharacterDataChange()
+      } else {
+        this.$router.push({ path: '/' })
+      }
+    }
+    next()
+  },
   mounted() {
     if (this.uuidQueryParam) {
       this.listenToCharacterDataChange()
@@ -90,15 +102,13 @@ export default Vue.extend({
     }
   },
   methods: {
+    stopListeningCharacterDataChange(): void {
+      this.$fire.database.ref('character').child(`${this.uuidQueryParam}`).off()
+    },
     listenToCharacterDataChange(): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const characterRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
 
       characterRef.on('value', (snapshot) => {
         const characterData = snapshot.val()
@@ -109,131 +119,81 @@ export default Vue.extend({
       return this.$fire.auth.currentUser != null
     },
     updateName(name: String): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const nameRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('name')
 
       nameRef.set(name)
     },
     updatePlayer(player: String): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const playerRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('player')
 
       playerRef.set(player)
     },
     updateDescription(description: String): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const descriptionRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('description')
 
       descriptionRef.set(description)
     },
     updateExp(exp: Number): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const expRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('exp')
 
       expRef.set(+exp)
     },
     updateLife(life: Number): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const lifeRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('life')
 
       lifeRef.set(+life)
     },
     updateAttributes(attributes: Attributes): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const attributesRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('attributes')
 
       attributesRef.set(attributes)
     },
     updateEndurances(endurances: Endurances): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const attributesRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('endurances')
 
       attributesRef.set(this.$convertEnduranceEndurancesToFirebase(endurances))
     },
     updateBattleInventory(battleInventory: BattleInventory): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const attributesRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('battleInventory')
 
       attributesRef.set(this.$convertBattleInventoryToFirebase(battleInventory))
     },
     updateExpertises(expertises: Expertises): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const expertisesRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('expertises')
 
       expertisesRef.set(expertises)
     },
     updateCharacteristics(characteristics: Characteristic[]): void {
-      const uuidQueryParam = this.uuidQueryParam
-      if (!uuidQueryParam) {
-        return
-      }
-
       const characteristicsRef = this.$fire.database
         .ref('character')
-        .child(`${uuidQueryParam}`)
+        .child(`${this.uuidQueryParam}`)
         .child('characteristics')
 
       characteristicsRef.set(this.$firebaseArrayFromArrayOf(characteristics))

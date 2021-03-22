@@ -13,6 +13,7 @@
       >
         <Characteristic :characteristic="characteristic" :readonly="readonly" />
         <b-button
+          class="delete-button"
           v-if="!readonly"
           variant="outline-danger"
           @click="showDeleteCharacteristicModal(index)"
@@ -82,5 +83,9 @@ export default Vue.extend({
 <style lang="scss">
 .characteristics-card-container {
   padding: 0 3rem;
+
+  .delete-button {
+    margin-left: 1rem;
+  }
 }
 </style>
