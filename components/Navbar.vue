@@ -15,6 +15,9 @@
           <b-dropdown-item @click="navigateToLifeLinkGenerator()">
             Vida do personagem
           </b-dropdown-item>
+          <b-dropdown-item @click="navigateToProfileLinkGenerator()">
+            Perfil do personagem
+          </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
@@ -72,6 +75,9 @@ export default Vue.extend({
     },
     navigateToLifeLinkGenerator(): void {
       this.$router.replace({ name: 'character-life-generator' })
+    },
+    navigateToProfileLinkGenerator(): void {
+      this.$router.replace({ name: 'character-profile-generator' })
     },
     showNewCharacterModal() {
       this.$bvModal.show('navbar-new-character-modal')
