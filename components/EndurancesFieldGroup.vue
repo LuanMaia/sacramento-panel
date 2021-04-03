@@ -32,7 +32,7 @@ export default Vue.extend({
   props: {
     endurances: {
       type: Endurances,
-      default: new Endurances(),
+      default: () => new Endurances(),
     },
     readonly: Boolean,
   },

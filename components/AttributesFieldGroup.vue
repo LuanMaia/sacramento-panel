@@ -34,7 +34,7 @@ export default Vue.extend({
   props: {
     attributes: {
       type: Attributes,
-      default: new Attributes(),
+      default: () => new Attributes(),
     },
     readonly: Boolean,
   },

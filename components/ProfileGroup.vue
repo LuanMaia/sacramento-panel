@@ -35,6 +35,7 @@
       <InputField
         id="player-name-field"
         label="Jogador"
+        prepend="@"
         :value="playerTag"
         @input="updatePlayerTag($event)"
         :labelCols="3"
@@ -53,7 +54,7 @@
       <InputField
         id="character-character-experience-field"
         label="Experiência"
-        :value="exp"
+        :value="`${exp}`"
         @input="updateExp($event)"
         :labelCols="3"
         :contentCols="6"

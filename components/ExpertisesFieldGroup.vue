@@ -104,7 +104,7 @@ export default Vue.extend({
   props: {
     expertises: {
       type: Expertises,
-      default: new Expertises(),
+      default: () => new Expertises(),
     },
     readonly: Boolean,
   },
