@@ -80,14 +80,11 @@ export default Vue.extend({
       line-height: normal;
       text-transform: uppercase;
     }
-    > .character-name {
-      font-size: 12rem;
-    }
-    > .character-life {
-      font-size: 12rem;
+    > .character-name,.character-life {
+      font-size: 12vw;
     }
     > .player-tag {
-      font-size: 4rem;
+      font-size: 4vw;
     }
   }
 }

@@ -17,5 +17,7 @@ export class Character {
     life?: Number;
     maxLife?: Number;
     public?: boolean;
+    showLifeOnProfile?: boolean;
+    playerTag?: string;
     uuid!: string;
 }

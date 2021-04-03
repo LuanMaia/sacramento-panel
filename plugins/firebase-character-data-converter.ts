@@ -33,6 +33,8 @@ Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharac
     character.life = firebaseCharacter.life;
     character.maxLife = firebaseCharacter.maxLife;
     character.public = firebaseCharacter.public;
+    character.showLifeOnProfile = firebaseCharacter.showLifeOnProfile;
+    character.playerTag = firebaseCharacter.playerTag;
 
     character.characteristics = firebaseArrayToArrayOf<Characteristic>(firebaseCharacter.characteristics);
 
@@ -149,6 +151,8 @@ interface FirebaseCharacter {
     life?: Number;
     maxLife?: Number;
     public?: boolean;
+    showLifeOnProfile?: boolean;
+    playerTag?: string;
 }
 
 interface FirebaseBattleInventory {
