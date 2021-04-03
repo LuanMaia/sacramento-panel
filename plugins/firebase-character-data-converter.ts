@@ -27,7 +27,6 @@ Vue.prototype.$convertFirebaseCharacterData = (firebaseCharacter: FirebaseCharac
     character.expertises = firebaseCharacter.expertises;
     character.endurances = convertFirebaseEndurances(firebaseCharacter.endurances);
     character.name = firebaseCharacter.name;
-    character.player = firebaseCharacter.player;
     character.description = firebaseCharacter.description;
     character.exp = firebaseCharacter.exp;
     character.life = firebaseCharacter.life;

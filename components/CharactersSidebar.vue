@@ -77,7 +77,7 @@ export default Vue.extend({
           character.name
             ?.toLowerCase()
             .includes(this.filterInput.toLowerCase()) ||
-          character.player
+          character.playerTag
             ?.toLowerCase()
             .includes(this.filterInput.toLowerCase())
       )

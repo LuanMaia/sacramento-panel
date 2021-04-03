@@ -18,7 +18,7 @@
         <InputField
           id="player-name-field"
           label="Jogador"
-          v-model="character.player"
+          v-model="character.playerTag"
           :labelCols="2"
           :contentCols="10"
           :readonly="readonly"
@@ -40,7 +40,7 @@
             class="float-right"
             @click="createCharacter()"
             :disabled="
-              !character.name || !character.player || !character.description
+              !character.name || !character.playerTag || !character.description
             "
           >
             Adicionar
