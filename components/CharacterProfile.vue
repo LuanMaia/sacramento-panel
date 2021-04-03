@@ -1,5 +1,9 @@
 <template>
-  <div class="d-flex profile-container">
+  <div
+    ref="container"
+    :style="{ height: height + 'px' }"
+    class="d-flex profile-container"
+  >
     <img
       class="character-avatar col-3"
       :src="`${profilePictureUrl}&${timestamp}`"
@@ -50,6 +54,7 @@ export default Vue.extend({
   data() {
     return {
       timestamp: Date.now(),
+      height: 0,
     }
   },
   props: {
@@ -61,6 +66,14 @@ export default Vue.extend({
     characterMaxLife: Number,
     playerTag: String,
     showLife: Boolean,
+  },
+  mounted() {
+    const container = this.$refs['container']
+
+    if (container instanceof Element) {
+      this.height = container.clientWidth * 0.235
+      console.log(this.height)
+    }
   },
 })
 </script>
