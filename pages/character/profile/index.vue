@@ -8,6 +8,7 @@
     :characterMaxLife="characterMaxLife"
     :playerTag="playerTag"
     :showLife="showLife"
+    :readonly="true"
   />
 </template>
 
@@ -34,7 +35,7 @@ export default Vue.extend({
   created() {
     const uuidQueryParam = this.$route.query[UUID_QUERY_PARAM_NAME]
     if (uuidQueryParam && typeof uuidQueryParam === 'string') {
-      this.fetchProfilePictureURL(uuidQueryParam)
+      this.listenProfilePictureURLChange(uuidQueryParam)
       this.listenToCharacterNameChange(uuidQueryParam)
       this.listenToPlayerTagChange(uuidQueryParam)
       this.listenToCharacterLifeChange(uuidQueryParam)
@@ -52,12 +53,16 @@ export default Vue.extend({
     }
   },
   methods: {
-    fetchProfilePictureURL(characterUUID: string): void {
-      this.$fire.storage
-        .ref('character/profile/picture')
-        .child(`${characterUUID}.png`)
-        .getDownloadURL()
-        .then((url: string) => (this.profilePictureUrl = url))
+    listenProfilePictureURLChange(characterUUID: string): void {
+      const profileAvatarUrlRef = this.$fire.database
+        .ref('character')
+        .child(`${characterUUID}`)
+        .child('profileAvatarUrl')
+
+      profileAvatarUrlRef.on('value', (snapshot) => {
+        const profileAvatarUrl: string = snapshot.val()
+        this.profilePictureUrl = profileAvatarUrl
+      })
     },
     listenToCharacterNameChange(characterUUID: string): void {
       const characterNameRef = this.$fire.database
@@ -117,25 +122,3 @@ export default Vue.extend({
   },
 })
 </script>
-
-<style lang="scss">
-.profile-container {
-  > .character-avatar {
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  > .profile-info {
-    align-content: center;
-
-    > .character-name,
-    .player-tag {
-      padding: 0;
-      font-family: BenderBlack;
-      font-style: italic;
-      line-height: normal;
-      text-transform: uppercase;
-    }
-  }
-}
-</style>

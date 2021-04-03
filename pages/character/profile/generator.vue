@@ -64,6 +64,7 @@
         :profilePictureUrl="
           profilePictureUrlMap.get(linkGeneratorForm.character.uuid)
         "
+        :readonly="true"
       />
     </main>
   </div>
@@ -85,7 +86,7 @@ export default Vue.extend({
       generatedLink: '',
       characterOptions: new Array<{ value: Character; text: string }>(),
       characters: new Array<Character>(),
-      profilePictureUrlMap: new Map<String, String>(),
+      profilePictureUrlMap: new Map<String, String | undefined>(),
     }
   },
   methods: {
@@ -106,15 +107,6 @@ export default Vue.extend({
         return 'http'
       }
     },
-    fetchProfilePictureURL(characterUUID: string): void {
-      this.$fire.storage
-        .ref('character/profile/picture')
-        .child(`${characterUUID}.png`)
-        .getDownloadURL()
-        .then((url: string) =>
-          this.profilePictureUrlMap.set(characterUUID, url)
-        )
-    },
     shouldShowCharacterProfilePreview(): boolean {
       return (
         this.linkGeneratorForm.character != null &&
@@ -134,7 +126,10 @@ export default Vue.extend({
         const character = this.$convertFirebaseCharacterData(firebaseCharacter)
         character.uuid = firebaseCharacter['uuid']
         this.characters.push(character)
-        this.fetchProfilePictureURL(character.uuid)
+        this.profilePictureUrlMap.set(
+          character.uuid,
+          character.profileAvatarUrl
+        )
       })
 
       this.characterOptions = this.characters.map((character) => {

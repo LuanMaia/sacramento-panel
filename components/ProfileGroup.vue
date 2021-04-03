@@ -1,6 +1,28 @@
 <template>
   <div>
     <b-card bg-variant="dark" text-variant="white" title="Perfil">
+      <div class="col-8" id="profile-wrapper">
+        <CharacterProfile
+          :profilePictureUrl="profilePictureUrl"
+          textColor="white"
+          :glitchType="3"
+          :characterName="name"
+          :characterLife="life"
+          :characterMaxLife="maxLife"
+          :playerTag="playerTag"
+          :showLife="false"
+          :readonly="readonly"
+          @avatarClick="openFileUpload()"
+        />
+        <input
+          type="file"
+          accept="image/png"
+          @change="uploadProfileAvatar($event)"
+          style="display: none"
+          ref="profileAvatarInput"
+          id="profile-avatar-input"
+        />
+      </div>
       <InputField
         id="character-name-field"
         label="Nome"
@@ -8,16 +30,16 @@
         @input="updateName($event)"
         :labelCols="3"
         :contentCols="6"
-        :readonly="readonly"
+        v-if="!readonly"
       />
       <InputField
         id="player-name-field"
         label="Jogador"
-        :value="player"
-        @input="updatePlayer($event)"
+        :value="playerTag"
+        @input="updatePlayerTag($event)"
         :labelCols="3"
         :contentCols="6"
-        :readonly="readonly"
+        v-if="!readonly"
       />
       <InputField
         id="character-description-field"
@@ -45,7 +67,7 @@
         @input="updateLife($event)"
         :labelCols="3"
         :contentCols="6"
-        min="0"
+        :min="0"
         :max="maxLife"
       />
     </b-card>
@@ -57,20 +79,28 @@ import Vue from 'vue'
 
 export default Vue.extend({
   props: {
+    profilePictureUrl: String,
     name: String,
-    player: String,
     description: String,
     readonly: Boolean,
     life: Number,
     maxLife: Number,
     exp: Number,
+    playerTag: String,
   },
   methods: {
+    openFileUpload(): void {
+      const profileAvatarInputElement = this.$refs['profileAvatarInput']
+
+      if (profileAvatarInputElement instanceof HTMLInputElement) {
+        profileAvatarInputElement.click()
+      }
+    },
     updateName(name: String): void {
       this.$emit('name', name)
     },
-    updatePlayer(player: String): void {
-      this.$emit('player', player)
+    updatePlayerTag(playerTag: String): void {
+      this.$emit('playerTag', playerTag)
     },
     updateDescription(description: String): void {
       this.$emit('description', description)
@@ -81,6 +111,21 @@ export default Vue.extend({
     updateLife(life: Number): void {
       this.$emit('life', life)
     },
+    uploadProfileAvatar(event: any): void {
+      if (
+        event.target.files[0] instanceof File &&
+        event.target.files[0].type.includes('png')
+      ) {
+        this.$emit('uploadProfileAvatar', event.target.files[0])
+      }
+    },
   },
 })
 </script>
+
+<style lang="scss">
+#profile-wrapper {
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+</style>

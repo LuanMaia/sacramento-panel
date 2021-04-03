@@ -4,18 +4,22 @@
     :style="{ height: height + 'px' }"
     class="d-flex profile-container"
   >
-    <img
+    <div
       class="character-avatar col-3"
-      :src="`${profilePictureUrl}&${timestamp}`"
-      alt="Avatar do personagem"
+      :class="{ editable: !readonly }"
+      :style="`background: url(${profilePictureUrl}) no-repeat 50% 0px / cover;`"
+      @click="emitAvatarClick()"
       v-if="profilePictureUrl != null && profilePictureUrl !== ''"
-    />
-    <img
+    ></div>
+    <div
       class="character-avatar col-3"
-      src="/img/profile-picture.png"
-      alt="Avatar do personagem vazio"
+      :class="{ editable: !readonly }"
+      style="
+        background: url(/img/profile-picture.png) no-repeat 50% 0px / cover;
+      "
+      @click="emitAvatarClick()"
       v-else
-    />
+    ></div>
 
     <div
       :class="`gl-${glitchType}`"
@@ -56,7 +60,6 @@ import Vue from 'vue'
 export default Vue.extend({
   data() {
     return {
-      timestamp: Date.now(),
       height: 0,
       characterNameFontSize: 0,
       characterLifeFontSize: 0,
@@ -72,6 +75,7 @@ export default Vue.extend({
     characterMaxLife: Number,
     playerTag: String,
     showLife: Boolean,
+    readonly: Boolean,
   },
   mounted() {
     this.resizeLengths()
@@ -88,6 +92,9 @@ export default Vue.extend({
         this.playerTagFontSize = container.clientWidth * 0.04
       }
     },
+    emitAvatarClick(): void {
+      this.$emit('avatarClick')
+    },
   },
 })
 </script>
@@ -95,12 +102,20 @@ export default Vue.extend({
 <style lang="scss">
 .profile-container {
   > .character-avatar {
+    padding: 0;
     border-radius: 50%;
-    object-fit: cover;
+  }
+  > .character-avatar.editable {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: inset 0 0 0 500px rgba(173, 173, 173, 0.445);
+    }
   }
 
   > .profile-info {
     align-content: center;
+    padding-left: 2rem;
 
     > .character-name,
     .character-life,

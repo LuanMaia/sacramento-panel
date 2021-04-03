@@ -7,8 +7,8 @@
           <ProfileGroup
             :name="character.name"
             @name="updateName($event)"
-            :player="character.player"
-            @player="updatePlayer($event)"
+            :playerTag="character.playerTag"
+            @playerTag="updatePlayerTag($event)"
             :description="character.description"
             @description="updateDescription($event)"
             :exp="character.exp"
@@ -17,6 +17,8 @@
             @life="updateLife($event)"
             :maxLife="character.maxLife"
             :readonly="!isAuthenticated()"
+            :profilePictureUrl="character.profileAvatarUrl"
+            @uploadProfileAvatar="uploadProfileAvatar($event)"
           />
         </div>
         <div class="character-info row">
@@ -118,6 +120,29 @@ export default Vue.extend({
     isAuthenticated(): boolean {
       return this.$fire.auth.currentUser != null
     },
+    updateProfilePictureURL(): void {
+      this.$fire.storage
+        .ref('character/profile/picture')
+        .child(`${this.uuidQueryParam}.png`)
+        .getDownloadURL()
+        .then((url: string) => {
+          const profileAvatarRef = this.$fire.database
+            .ref('character')
+            .child(`${this.uuidQueryParam}`)
+            .child('profileAvatarUrl')
+
+          profileAvatarRef.set(`${url}&timestamp=${Date.now()}`)
+        })
+    },
+    uploadProfileAvatar(file: File): void {
+      this.$fire.storage
+        .ref('character/profile/picture')
+        .child(`${this.uuidQueryParam}.png`)
+        .put(file)
+        .then(() => {
+          this.updateProfilePictureURL()
+        })
+    },
     updateName(name: String): void {
       const nameRef = this.$fire.database
         .ref('character')
@@ -126,13 +151,13 @@ export default Vue.extend({
 
       nameRef.set(name)
     },
-    updatePlayer(player: String): void {
+    updatePlayerTag(playerTag: String): void {
       const playerRef = this.$fire.database
         .ref('character')
         .child(`${this.uuidQueryParam}`)
-        .child('player')
+        .child('playerTag')
 
-      playerRef.set(player)
+      playerRef.set(playerTag)
     },
     updateDescription(description: String): void {
       const descriptionRef = this.$fire.database

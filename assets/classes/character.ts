@@ -19,5 +19,6 @@ export class Character {
     public?: boolean;
     showLifeOnProfile?: boolean;
     playerTag?: string;
+    profileAvatarUrl?: String;
     uuid!: string;
 }
