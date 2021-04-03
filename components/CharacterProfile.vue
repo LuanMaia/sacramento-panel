@@ -72,7 +72,6 @@ export default Vue.extend({
 
     if (container instanceof Element) {
       this.height = container.clientWidth * 0.235
-      console.log(this.height)
     }
   },
 })
