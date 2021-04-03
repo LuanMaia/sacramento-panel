@@ -104,12 +104,16 @@ export default Vue.extend({
   > .character-avatar {
     padding: 0;
     border-radius: 50%;
-  }
-  > .character-avatar.editable {
-    cursor: pointer;
 
-    &:hover {
-      box-shadow: inset 0 0 0 500px rgba(173, 173, 173, 0.445);
+    &:not(.editable) {
+      pointer-events: none;
+    }
+    &.editable {
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: inset 0 0 0 500px rgba(173, 173, 173, 0.445);
+      }
     }
   }
 
