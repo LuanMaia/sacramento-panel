@@ -32,8 +32,12 @@
       >
         {{ characterLife }}/{{ characterMaxLife }}
       </div>
-      <div class="col-12 player-tag" :data-text="playerTag">
-        {{ playerTag }}
+      <div
+        class="col-12 player-tag"
+        :data-text="`@${playerTag}`"
+        v-if="playerTag != null && playerTag !== ''"
+      >
+        @{{ playerTag }}
       </div>
     </div>
   </div>
@@ -80,7 +84,8 @@ export default Vue.extend({
       line-height: normal;
       text-transform: uppercase;
     }
-    > .character-name,.character-life {
+    > .character-name,
+    .character-life {
       font-size: 12vw;
     }
     > .player-tag {
