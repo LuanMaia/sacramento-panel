@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="container"
+    ref="profileContainer"
     :style="{ height: height + 'px' }"
     class="d-flex profile-container"
   >
@@ -24,6 +24,7 @@
     >
       <div
         class="col-12 character-name"
+        :style="{ 'font-size': characterNameFontSize + 'px' }"
         :data-text="characterName"
         v-if="!showLife || characterLife == null || characterMaxLife == null"
       >
@@ -31,6 +32,7 @@
       </div>
       <div
         class="col-12 character-life"
+        :style="{ 'font-size': characterLifeFontSize + 'px' }"
         :data-text="`${characterLife}/${characterMaxLife}`"
         v-else
       >
@@ -38,6 +40,7 @@
       </div>
       <div
         class="col-12 player-tag"
+        :style="{ 'font-size': playerTagFontSize + 'px' }"
         :data-text="`@${playerTag}`"
         v-if="playerTag != null && playerTag !== ''"
       >
@@ -55,6 +58,9 @@ export default Vue.extend({
     return {
       timestamp: Date.now(),
       height: 0,
+      characterNameFontSize: 0,
+      characterLifeFontSize: 0,
+      playerTagFontSize: 0,
     }
   },
   props: {
@@ -68,11 +74,20 @@ export default Vue.extend({
     showLife: Boolean,
   },
   mounted() {
-    const container = this.$refs['container']
+    this.resizeLengths()
+    window.addEventListener('resize', this.resizeLengths)
+  },
+  methods: {
+    resizeLengths(): void {
+      const container = this.$refs['profileContainer']
 
-    if (container instanceof Element) {
-      this.height = container.clientWidth * 0.235
-    }
+      if (container instanceof Element) {
+        this.height = container.clientWidth * 0.235
+        this.characterNameFontSize = container.clientWidth * 0.12
+        this.characterLifeFontSize = container.clientWidth * 0.12
+        this.playerTagFontSize = container.clientWidth * 0.04
+      }
+    },
   },
 })
 </script>
@@ -95,13 +110,6 @@ export default Vue.extend({
       font-style: italic;
       line-height: normal;
       text-transform: uppercase;
-    }
-    > .character-name,
-    .character-life {
-      font-size: 12vw;
-    }
-    > .player-tag {
-      font-size: 4vw;
     }
   }
 }

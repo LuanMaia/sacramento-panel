@@ -136,12 +136,6 @@ export default Vue.extend({
       line-height: normal;
       text-transform: uppercase;
     }
-    > .character-name {
-      font-size: 12rem;
-    }
-    > .player-tag {
-      font-size: 4rem;
-    }
   }
 }
 </style>
