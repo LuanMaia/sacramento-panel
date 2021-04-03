@@ -12,6 +12,9 @@
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown text="Criar link" left>
+          <b-dropdown-item @click="navigateToSheetLinkGenerator()">
+            Ficha do personagem
+          </b-dropdown-item>
           <b-dropdown-item @click="navigateToLifeLinkGenerator()">
             Vida do personagem
           </b-dropdown-item>
@@ -72,6 +75,9 @@ export default Vue.extend({
         name: 'character-sheet',
         query: { ...this.$route.query, 'character-uuid': character.uuid },
       })
+    },
+    navigateToSheetLinkGenerator(): void {
+      this.$router.replace({ name: 'character-sheet-generator' })
     },
     navigateToLifeLinkGenerator(): void {
       this.$router.replace({ name: 'character-life-generator' })
