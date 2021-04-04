@@ -110,7 +110,10 @@ export default Vue.extend({
       firebaseCharacters.forEach((firebaseCharacter) => {
         const character = this.$convertFirebaseCharacterData(firebaseCharacter)
         character.uuid = firebaseCharacter['uuid']
-        this.characters.push(character)
+
+        if (character.public) {
+          this.characters.push(character)
+        }
       })
 
       this.characterOptions = this.characters.map((character) => {
