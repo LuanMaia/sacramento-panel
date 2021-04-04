@@ -39,9 +39,7 @@
             variant="success"
             class="float-right"
             @click="createCharacter()"
-            :disabled="
-              !character.name || !character.playerTag || !character.description
-            "
+            :disabled="!character.name"
           >
             Adicionar
           </b-button>

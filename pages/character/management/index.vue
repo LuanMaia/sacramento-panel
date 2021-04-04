@@ -72,7 +72,7 @@
                   Mostrar nome
                 </b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item @click="deleteSelecteds()">
+                <b-dropdown-item variant="danger" @click="deleteSelecteds()">
                   Deletar
                 </b-dropdown-item>
               </b-dropdown>

@@ -6,6 +6,9 @@
           <b-dropdown-item v-b-toggle.characters-sidebar>
             Fichas
           </b-dropdown-item>
+          <b-dropdown-item @click="navigateToCharactersManagement()">
+            Gerenciar
+          </b-dropdown-item>
           <b-dropdown-item @click="showNewCharacterModal()">
             Criar
           </b-dropdown-item>
@@ -74,6 +77,11 @@ export default Vue.extend({
       this.$router.replace({
         name: 'character-sheet',
         query: { ...this.$route.query, 'character-uuid': character.uuid },
+      })
+    },
+    navigateToCharactersManagement(): void {
+      this.$router.replace({
+        name: 'character-management',
       })
     },
     navigateToSheetLinkGenerator(): void {
