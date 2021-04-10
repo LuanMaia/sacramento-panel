@@ -18,6 +18,7 @@
         <InputField
           id="player-name-field"
           label="Jogador"
+          prepend="@"
           v-model="character.playerTag"
           :labelCols="2"
           :contentCols="10"

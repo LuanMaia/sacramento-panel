@@ -9,9 +9,6 @@
           <b-dropdown-item @click="navigateToCharactersManagement()">
             Gerenciar
           </b-dropdown-item>
-          <b-dropdown-item @click="showNewCharacterModal()">
-            Criar
-          </b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown text="Criar link" left>
@@ -38,8 +35,6 @@
       id="characters-sidebar"
       @character="navigateToCharacterSheet($event)"
     />
-
-    <NewCharacterModal id="navbar-new-character-modal" />
   </div>
 </template>
 
@@ -92,9 +87,6 @@ export default Vue.extend({
     },
     navigateToProfileLinkGenerator(): void {
       this.$router.replace({ name: 'character-profile-generator' })
-    },
-    showNewCharacterModal() {
-      this.$bvModal.show('navbar-new-character-modal')
     },
   },
   created() {

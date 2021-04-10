@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div id="management-container" class="d-flex justify-content-center">
+    <main id="management-container" class="d-flex justify-content-center">
       <b-card title="Gerenciar personagens" class="col-8">
         <b-table striped small :fields="fields" :items="items">
           <template #cell(name)="data">
@@ -92,8 +92,19 @@
             <i>{{ data.value }}</i>
           </template>
         </b-table>
+        <div class="d-flex justify-content-end">
+          <b-button
+            class="col-2"
+            variant="success"
+            @click="showNewCharacterModal()"
+          >
+            Criar
+          </b-button>
+        </div>
       </b-card>
-    </div>
+    </main>
+
+    <NewCharacterModal id="navbar-new-character-modal" />
   </div>
 </template>
 
@@ -102,6 +113,7 @@ import Vue from 'vue'
 import { Character } from '@/assets/classes/character'
 
 export default Vue.extend({
+  middleware: 'authentication-guard',
   data() {
     return {
       fields: [
@@ -223,6 +235,9 @@ export default Vue.extend({
       } else {
         return `Você tem certeza que deseja deletar ${this.selected.length} personagens?`
       }
+    },
+    showNewCharacterModal() {
+      this.$bvModal.show('navbar-new-character-modal')
     },
   },
 })
