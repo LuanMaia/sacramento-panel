@@ -52,6 +52,7 @@ export default {
     services: {
       auth: true,
       database: true,
+      storage: true,
     }
   },
 

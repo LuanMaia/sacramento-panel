@@ -18,7 +18,8 @@
         <InputField
           id="player-name-field"
           label="Jogador"
-          v-model="character.player"
+          prepend="@"
+          v-model="character.playerTag"
           :labelCols="2"
           :contentCols="10"
           :readonly="readonly"
@@ -39,9 +40,7 @@
             variant="success"
             class="float-right"
             @click="createCharacter()"
-            :disabled="
-              !character.name || !character.player || !character.description
-            "
+            :disabled="!character.name"
           >
             Adicionar
           </b-button>

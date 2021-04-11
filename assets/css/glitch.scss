@@ -3,14 +3,14 @@
 }
 
 .glitch > * {
-	text-align: inherit;
+	text-align: initial;
 	line-height: 1;
 	word-break: break-all;
 }
 
 .glitch > *:before,
 .glitch > *:after {
-	text-align: inherit;
+	text-align: initial;
 	width: 100%;
 }
 
@@ -23,7 +23,7 @@
 
 .gl-1 > * {
   margin: auto;
-  text-align: center;
+  text-align: initial;
   animation: glitch-skew 5s infinite alternate;
   animation-timing-function: step-end;
   
@@ -34,7 +34,7 @@
 	width: 100%;
 	left: 0;
 	top: 0;
-	text-align: center;
+	text-align: initial;
 	filter: drop-shadow(0 0 transparent); 
 	background-color : inherit;
   } 

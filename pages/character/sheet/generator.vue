@@ -1,8 +1,8 @@
 <template>
-  <div id="life-link-generator-container">
+  <div id="sheet-link-generator-container">
     <Navbar />
-    <main class="life-link-generator-content">
-      <b-card class="login-card mt-3" header="Vida do personagem">
+    <main class="sheet-link-generator-content">
+      <b-card class="login-card mt-3" header="Ficha do personagem">
         <b-form @submit="onLinkGeneratorSubmit">
           <b-form-group
             id="input-group-character"
@@ -16,30 +16,9 @@
               required
             ></b-form-select>
           </b-form-group>
-          <b-form-group
-            id="input-group-text-color"
-            label="Cor do texto (em inglês):"
-            label-for="input-text-color"
-          >
-            <b-form-input
-              id="input-text-color"
-              v-model="linkGeneratorForm.textColor"
-              type="text"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <SpinButtonField
-            id="input-text-glitch-type"
-            label="Tipo de glitch"
-            v-model="linkGeneratorForm.glitchType"
-            :labelCols="1"
-            :contentCols="2"
-            :min="1"
-            :max="6"
-          />
 
           <InputField
-            id="life-generated-link"
+            id="sheet-generated-link"
             v-model="generatedLink"
             :contentCols="12"
             :readonly="true"
@@ -50,14 +29,6 @@
           </b-button>
         </b-form>
       </b-card>
-
-      <LiveStreamLife
-        id="live-stream-life-preview"
-        :characterLife="linkGeneratorForm.character.life"
-        :characterMaxLife="linkGeneratorForm.character.maxLife"
-        :textColor="linkGeneratorForm.textColor"
-        :glitchType="linkGeneratorForm.glitchType"
-      />
     </main>
   </div>
 </template>
@@ -71,8 +42,6 @@ export default Vue.extend({
   data() {
     return {
       linkGeneratorForm: {
-        textColor: 'white',
-        glitchType: 2,
         character: new Character(),
       },
       generatedLink: '',
@@ -85,10 +54,8 @@ export default Vue.extend({
       event.preventDefault()
 
       this.generatedLink =
-        `${this.getHttpOrHttps()}://${location.host}/character/life` +
+        `${this.getHttpOrHttps()}://${location.host}/character/sheet` +
         `?character-uuid=${this.linkGeneratorForm.character.uuid}` +
-        `&glitch-type=${this.linkGeneratorForm.glitchType}` +
-        `&text-color=${this.linkGeneratorForm.textColor}` +
         `&timestamp=${Date.now()}`
     },
     getHttpOrHttps(): string {
@@ -128,16 +95,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-#life-link-generator-container {
+#sheet-link-generator-container {
   background-color: #00000075;
   min-height: 100vh;
-
-  .life-text {
-    font-size: 20rem;
-  }
 }
 
-.life-link-generator-content {
+.sheet-link-generator-content {
   width: 70%;
   margin: 2rem auto;
 }
@@ -145,10 +108,5 @@ export default Vue.extend({
 #link-generator-submit {
   float: right;
   width: 10rem;
-}
-
-#live-stream-life-preview {
-  position: absolute;
-  transform: translate(50%, 0);
 }
 </style>

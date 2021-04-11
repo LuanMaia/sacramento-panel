@@ -1,8 +1,8 @@
 <template>
-  <div id="life-link-generator-container">
+  <div id="profile-link-generator-container">
     <Navbar />
-    <main class="life-link-generator-content">
-      <b-card class="login-card mt-3" header="Vida do personagem">
+    <main class="profile-link-generator-content">
+      <b-card class="login-card mt-3" header="Perfil do personagem">
         <b-form @submit="onLinkGeneratorSubmit">
           <b-form-group
             id="input-group-character"
@@ -39,7 +39,7 @@
           />
 
           <InputField
-            id="life-generated-link"
+            id="profile-generated-link"
             v-model="generatedLink"
             :contentCols="12"
             :readonly="true"
@@ -51,12 +51,20 @@
         </b-form>
       </b-card>
 
-      <LiveStreamLife
-        id="live-stream-life-preview"
+      <CharacterProfile
+        id="live-stream-profile-preview"
+        v-if="shouldShowCharacterProfilePreview()"
         :characterLife="linkGeneratorForm.character.life"
         :characterMaxLife="linkGeneratorForm.character.maxLife"
+        :characterName="linkGeneratorForm.character.name"
+        :playerTag="linkGeneratorForm.character.playerTag"
+        :showLife="linkGeneratorForm.character.showLifeOnProfile"
         :textColor="linkGeneratorForm.textColor"
         :glitchType="linkGeneratorForm.glitchType"
+        :profilePictureUrl="
+          profilePictureUrlMap.get(linkGeneratorForm.character.uuid)
+        "
+        :readonly="true"
       />
     </main>
   </div>
@@ -72,12 +80,13 @@ export default Vue.extend({
     return {
       linkGeneratorForm: {
         textColor: 'white',
-        glitchType: 2,
+        glitchType: 3,
         character: new Character(),
       },
       generatedLink: '',
       characterOptions: new Array<{ value: Character; text: string }>(),
       characters: new Array<Character>(),
+      profilePictureUrlMap: new Map<String, String | undefined>(),
     }
   },
   methods: {
@@ -85,7 +94,7 @@ export default Vue.extend({
       event.preventDefault()
 
       this.generatedLink =
-        `${this.getHttpOrHttps()}://${location.host}/character/life` +
+        `${this.getHttpOrHttps()}://${location.host}/character/profile` +
         `?character-uuid=${this.linkGeneratorForm.character.uuid}` +
         `&glitch-type=${this.linkGeneratorForm.glitchType}` +
         `&text-color=${this.linkGeneratorForm.textColor}` +
@@ -97,6 +106,12 @@ export default Vue.extend({
       } else {
         return 'http'
       }
+    },
+    shouldShowCharacterProfilePreview(): boolean {
+      return (
+        this.linkGeneratorForm.character != null &&
+        this.linkGeneratorForm.character.uuid != null
+      )
     },
   },
   created() {
@@ -113,6 +128,10 @@ export default Vue.extend({
 
         if (character.public) {
           this.characters.push(character)
+          this.profilePictureUrlMap.set(
+            character.uuid,
+            character.profileAvatarUrl
+          )
         }
       })
 
@@ -128,16 +147,12 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
-#life-link-generator-container {
+#profile-link-generator-container {
   background-color: #00000075;
   min-height: 100vh;
-
-  .life-text {
-    font-size: 20rem;
-  }
 }
 
-.life-link-generator-content {
+.profile-link-generator-content {
   width: 70%;
   margin: 2rem auto;
 }
@@ -147,8 +162,17 @@ export default Vue.extend({
   width: 10rem;
 }
 
-#live-stream-life-preview {
+#live-stream-profile-preview {
+  margin-top: 2rem;
+  width: 50%;
   position: absolute;
-  transform: translate(50%, 0);
+
+  .character-name,
+  .character-life {
+    font-size: 6rem;
+  }
+  .player-tag {
+    font-size: 2rem;
+  }
 }
 </style>

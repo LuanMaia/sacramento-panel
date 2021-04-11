@@ -98,7 +98,7 @@ export default Vue.extend({
   props: {
     battleInventory: {
       type: BattleInventory,
-      default: new BattleInventory(),
+      default: () => new BattleInventory(),
     },
     readonly: Boolean,
   },

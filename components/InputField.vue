@@ -8,14 +8,16 @@
       :content-cols="contentCols"
       label-align-sm="right"
     >
-      <b-form-input
-        :id="id"
-        :value="value"
-        @input="updateValue($event)"
-        trim
-        :readonly="readonly"
-        :type="type"
-      ></b-form-input>
+      <b-input-group :prepend="prepend" :append="append">
+        <b-form-input
+          :id="id"
+          :value="value"
+          @input="updateValue($event)"
+          trim
+          :readonly="readonly"
+          :type="type"
+        ></b-form-input>
+      </b-input-group>
     </b-form-group>
   </div>
 </template>
@@ -33,6 +35,8 @@ export default Vue.extend({
     contentCols: Number,
     readonly: Boolean,
     type: String,
+    prepend: String,
+    append: String,
   },
   methods: {
     updateValue(value: String | number): void {

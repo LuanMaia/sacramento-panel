@@ -27,7 +27,8 @@
                 chooseCharacter(character)
               "
             >
-              {{ character.name }}
+              <b-avatar :src="character.profileAvatarUrl" size="sm"></b-avatar>
+              <span> {{ character.name }} </span>
             </b-button>
           </b-button-group>
         </div>
@@ -46,7 +47,7 @@ Vue.use(BootstrapVueIcons)
 
 export default Vue.extend({
   props: {
-    id: String
+    id: String,
   },
   data() {
     return {
@@ -77,7 +78,7 @@ export default Vue.extend({
           character.name
             ?.toLowerCase()
             .includes(this.filterInput.toLowerCase()) ||
-          character.player
+          character.playerTag
             ?.toLowerCase()
             .includes(this.filterInput.toLowerCase())
       )
