@@ -1,4 +1,4 @@
-# hydra1008-panel
+# sacramento-panel
 
 ## Build Setup
 

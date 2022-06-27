@@ -2,7 +2,7 @@ export default {
   ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Painel Hydra 1008',
+    title: 'Painel Sacramento',
     htmlAttrs: {
       lang: 'pt-BR',
     },
@@ -40,14 +40,13 @@ export default {
 
   firebase: {
     config: {
-      apiKey: "AIzaSyAGr8rJWXWx-UdJZNUxgHY1dVdCl0vTbno",
-      authDomain: "hydra1008-e45e5.firebaseapp.com",
-      databaseURL: "https://hydra1008-e45e5-default-rtdb.firebaseio.com",
-      projectId: "hydra1008-e45e5",
-      storageBucket: "hydra1008-e45e5.appspot.com",
-      messagingSenderId: "961707989838",
-      appId: "1:961707989838:web:0d24a593b1ada6a155dc1f",
-      measurementId: "G-W2QJZCNNWJ"
+      apiKey: "AIzaSyCTK4TpsLosxYFXngFaNBb4gq_VfJssLuk",
+      authDomain: "sacramento-panel.firebaseapp.com",
+      databaseURL: "https://sacramento-panel-default-rtdb.firebaseio.com",
+      projectId: "sacramento-panel",
+      storageBucket: "sacramento-panel.appspot.com",
+      messagingSenderId: "965432222096",
+      appId: "1:965432222096:web:86a2991697500d0c635315"
     },
     services: {
       auth: true,
