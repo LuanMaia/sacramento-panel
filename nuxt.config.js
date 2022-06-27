@@ -15,7 +15,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['~/assets/css/glitch.scss', '~/assets/css/bender-black-font.scss'],
+  css: ['~/assets/css/glitch.scss', '~/assets/css/roboto-slab-font.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['~/plugins/firebase-character-data-converter.ts'],

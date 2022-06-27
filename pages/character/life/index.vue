@@ -77,6 +77,6 @@ export default Vue.extend({
 <style lang="scss">
 .life-text {
   font-size: 70vh;
-  font-family: BenderBlack;
+  font-family: RobotoSlab;
 }
 </style>

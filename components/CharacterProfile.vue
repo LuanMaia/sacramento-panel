@@ -125,7 +125,7 @@ export default Vue.extend({
     .character-life,
     .player-tag {
       padding: 0;
-      font-family: BenderBlack;
+      font-family: RobotoSlab;
       font-style: italic;
       line-height: normal;
       text-transform: uppercase;
