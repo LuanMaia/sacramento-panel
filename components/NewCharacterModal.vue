@@ -67,8 +67,8 @@ export default Vue.extend({
   methods: {
     createCharacter(): void {
       this.character.uuid = uuid.v4()
-      this.character.life = 6
-      this.character.maxLife = 6
+      this.character.life = 100
+      this.character.maxLife = 100
       this.character.public = true
       this.character.exp = 1000
 

@@ -50,14 +50,6 @@
           </b-button>
         </b-form>
       </b-card>
-
-      <LiveStreamLife
-        id="live-stream-life-preview"
-        :characterLife="linkGeneratorForm.character.life"
-        :characterMaxLife="linkGeneratorForm.character.maxLife"
-        :textColor="linkGeneratorForm.textColor"
-        :glitchType="linkGeneratorForm.glitchType"
-      />
     </main>
   </div>
 </template>
