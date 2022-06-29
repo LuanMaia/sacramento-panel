@@ -20,8 +20,6 @@ export default Vue.extend({
   props: {
     characterLife: Number,
     characterMaxLife: Number,
-    textColor: String,
-    glitchType: Number,
   },
   methods: {
     getLifePercentage(): number {

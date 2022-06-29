@@ -16,27 +16,6 @@
               required
             ></b-form-select>
           </b-form-group>
-          <b-form-group
-            id="input-group-text-color"
-            label="Cor do texto (em inglês):"
-            label-for="input-text-color"
-          >
-            <b-form-input
-              id="input-text-color"
-              v-model="linkGeneratorForm.textColor"
-              type="text"
-              required
-            ></b-form-input>
-          </b-form-group>
-          <SpinButtonField
-            id="input-text-glitch-type"
-            label="Tipo de glitch"
-            v-model="linkGeneratorForm.glitchType"
-            :labelCols="1"
-            :contentCols="2"
-            :min="1"
-            :max="6"
-          />
 
           <InputField
             id="life-generated-link"
@@ -63,8 +42,6 @@ export default Vue.extend({
   data() {
     return {
       linkGeneratorForm: {
-        textColor: 'white',
-        glitchType: 2,
         character: new Character(),
       },
       generatedLink: '',
@@ -79,8 +56,6 @@ export default Vue.extend({
       this.generatedLink =
         `${this.getHttpOrHttps()}://${location.host}/character/life` +
         `?character-uuid=${this.linkGeneratorForm.character.uuid}` +
-        `&glitch-type=${this.linkGeneratorForm.glitchType}` +
-        `&text-color=${this.linkGeneratorForm.textColor}` +
         `&timestamp=${Date.now()}`
     },
     getHttpOrHttps(): string {
