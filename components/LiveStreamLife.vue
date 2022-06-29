@@ -2,10 +2,12 @@
   <div class="life-hud">
     <img src="/img/life-hud.png" class="life-base-image">
 
+    <div class="character-name">
+      <span class="character-name-text">{{ characterName }}</span>
+    </div>
+
     <div class="character-avatar" :style="`background: url(${getProfileAvatarUrl()}) no-repeat 50% 0px / cover;`"
       v-if="getProfileAvatarUrl() != null && getProfileAvatarUrl() !== ''"></div>
-
-
     <div class="character-avatar" style="
         background: url(/img/profile-picture.png) no-repeat 50% 0px / cover;" v-else></div>
 
@@ -27,6 +29,7 @@ export default Vue.extend({
   props: {
     characterLife: Number,
     characterMaxLife: Number,
+    characterName: String,
     profileAvatarUrl: String,
   },
   methods: {
@@ -46,12 +49,27 @@ export default Vue.extend({
   height: 100vh;
 
   >.character-avatar {
+    z-index: 1;
     position: absolute;
     top: 60px;
     left: 60px;
 
     width: 246px;
     height: 246px;
+  }
+
+  >.character-name {
+    z-index: 3;
+    position: absolute;
+    top: 53px;
+    left: 366px;
+
+    >.character-name-text {
+      color: white;
+      font-family: RobotoSlab;
+      font-size: 72px;
+      font-weight: bolder;
+    }
   }
 
   >.life-base-image {
