@@ -1,8 +1,6 @@
 <template>
-  <LiveStreamLife
-    :characterLife="characterLife"
-    :characterMaxLife="characterMaxLife"
-  />
+  <LiveStreamLife :characterLife="characterLife" :characterMaxLife="characterMaxLife"
+    :profileAvatarUrl="profileAvatarUrl" />
 </template>
 
 <script lang="ts">
@@ -15,12 +13,15 @@ export default Vue.extend({
     return {
       characterLife: 0,
       characterMaxLife: 0,
+      profileAvatarUrl: '',
     }
   },
   created() {
     this.characterLife = 0
+    this.profileAvatarUrl = ''
     this.listenToCharacterLifeChange()
     this.listenToCharacterMaxLifeChange()
+    this.listenToCharacterProfileAvatarUrl()
   },
   methods: {
     listenToCharacterLifeChange(): void {
@@ -53,6 +54,22 @@ export default Vue.extend({
       characterMaxLifeRef.on('value', (snapshot) => {
         const characterMaxLife: number = snapshot.val()
         this.characterMaxLife = characterMaxLife
+      })
+    },
+    listenToCharacterProfileAvatarUrl(): void {
+      const uuidQueryParam = this.$route.query[UUID_QUERY_PARAM_NAME]
+      if (!uuidQueryParam) {
+        return
+      }
+
+      const characterProfileAvatarUrl = this.$fire.database
+        .ref('character')
+        .child(`${uuidQueryParam}`)
+        .child('profileAvatarUrl')
+
+      characterProfileAvatarUrl.on('value', (snapshot) => {
+        const profileAvatarUrl: string = snapshot.val()
+        this.profileAvatarUrl = profileAvatarUrl
       })
     },
   },

@@ -2,6 +2,13 @@
   <div class="life-hud">
     <img src="/img/life-hud.png" class="life-base-image">
 
+    <div class="character-avatar" :style="`background: url(${getProfileAvatarUrl()}) no-repeat 50% 0px / cover;`"
+      v-if="getProfileAvatarUrl() != null && getProfileAvatarUrl() !== ''"></div>
+
+
+    <div class="character-avatar" style="
+        background: url(/img/profile-picture.png) no-repeat 50% 0px / cover;" v-else></div>
+
     <div class="progress life-box" id="life-progress-bar">
       <div class="progress-bar" role="progressbar" :style="{ width: getLifePercentage() + '%' }">
       </div>
@@ -20,10 +27,14 @@ export default Vue.extend({
   props: {
     characterLife: Number,
     characterMaxLife: Number,
+    profileAvatarUrl: String,
   },
   methods: {
     getLifePercentage(): number {
       return (this.characterLife / this.characterMaxLife) * 100;
+    },
+    getProfileAvatarUrl(): String {
+      return this.profileAvatarUrl;
     }
   }
 })
@@ -33,6 +44,15 @@ export default Vue.extend({
 .life-hud {
   width: 100vw;
   height: 100vh;
+
+  >.character-avatar {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+
+    width: 246px;
+    height: 246px;
+  }
 
   >.life-base-image {
     position: absolute;
@@ -76,6 +96,7 @@ export default Vue.extend({
         &#life-description {
           left: 48px;
         }
+
         &#life-number {
           right: 48px;
         }
