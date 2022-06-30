@@ -63,6 +63,17 @@
       />
       <SpinButtonField
         id="character-character-life-field"
+        label="Vida máxima"
+        :value="maxLife"
+        @input="updateMaxLife($event)"
+        :labelCols="3"
+        :contentCols="6"
+        :readonly="readonly"
+        :min="0"
+        :max="999999999"
+      />
+      <SpinButtonField
+        id="character-character-life-field"
         label="Vida"
         :value="life"
         @input="updateLife($event)"
@@ -111,6 +122,9 @@ export default Vue.extend({
     },
     updateLife(life: Number): void {
       this.$emit('life', life)
+    },
+    updateMaxLife(maxLife: Number): void {
+      this.$emit('maxLife', maxLife)
     },
     uploadProfileAvatar(event: any): void {
       if (

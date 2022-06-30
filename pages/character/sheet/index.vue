@@ -16,6 +16,7 @@
             :life="character.life"
             @life="updateLife($event)"
             :maxLife="character.maxLife"
+            @maxLife="updateMaxLife($event)"
             :readonly="!isAuthenticated()"
             :profilePictureUrl="character.profileAvatarUrl"
             @uploadProfileAvatar="uploadProfileAvatar($event)"
@@ -182,6 +183,14 @@ export default Vue.extend({
         .child('life')
 
       lifeRef.set(+life)
+    },
+    updateMaxLife(maxLife: Number): void {
+      const maxLifeRef = this.$fire.database
+        .ref('character')
+        .child(`${this.uuidQueryParam}`)
+        .child('maxLife')
+
+      maxLifeRef.set(+maxLife)
     },
     updateAttributes(attributes: Attributes): void {
       const attributesRef = this.$fire.database
