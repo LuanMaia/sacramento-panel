@@ -69,7 +69,7 @@
         :labelCols="3"
         :contentCols="6"
         :readonly="readonly"
-        :min="0"
+        :min="life"
         :max="999999999"
       />
       <SpinButtonField
