@@ -10,6 +10,8 @@
       v-if="getProfileAvatarUrl() != null && getProfileAvatarUrl() !== ''"></div>
     <div class="character-avatar" style="
         background: url(/img/profile-picture.png) no-repeat 50% 0px / cover;" v-else></div>
+    <div class="character-avatar life-critical-border" style="
+        background: url(/img/life-critical-border.png) no-repeat 50% 0px / cover;" v-if="getLifePercentage() <= 50"></div>
 
     <div class="progress life-box" id="life-progress-bar">
       <div class="progress-bar" role="progressbar" :style="{ width: getLifePercentage() + '%' }">
@@ -49,13 +51,17 @@ export default Vue.extend({
   height: 100vh;
 
   >.character-avatar {
-    z-index: 1;
+    z-index: 0;
     position: absolute;
     top: 60px;
     left: 60px;
 
     width: 246px;
     height: 246px;
+
+    &.life-critical-border {
+      z-index: 1;
+    }
   }
 
   >.character-name {
