@@ -7,7 +7,7 @@
     </div>
 
     <div class="character-avatar" :style="`background: url(${getProfileAvatarUrl()}) no-repeat 50% 0px / cover;`"
-      v-if="getProfileAvatarUrl() != null && getProfileAvatarUrl() !== ''"></div>
+      v-bind:class="{ 'life-0': getLifePercentage() <= 0 }" v-if="getProfileAvatarUrl() != null && getProfileAvatarUrl() !== ''"></div>
     <div class="character-avatar" style="
         background: url(/img/profile-picture.png) no-repeat 50% 0px / cover;" v-else></div>
     <div class="character-avatar life-border" style="
@@ -61,15 +61,19 @@ export default Vue.extend({
     width: 246px;
     height: 246px;
 
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    -ms-transition: all 500ms ease-in-out;
+    -o-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+
+    &.life-0 {
+      filter: grayscale(100%);
+    }
+
     &.life-border {
       z-index: 1;
       opacity: 0;
-
-      -webkit-transition: opacity 500ms ease-in-out;
-      -moz-transition: opacity 500ms ease-in-out;
-      -ms-transition: opacity 500ms ease-in-out;
-      -o-transition: opacity 500ms ease-in-out;
-      transition: opacity 500ms ease-in-out;
 
       &.life-border-on {
         opacity: 1;
