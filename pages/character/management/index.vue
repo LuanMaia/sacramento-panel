@@ -32,15 +32,16 @@
             </b-form-checkbox>
           </template>
 
-          <template #cell(showLifeOnProfile)="data">
-            <b-form-checkbox
-              :id="`checkbox-showLife-${data.index}`"
-              v-model="items[data.index].showLifeOnProfile"
-              :name="`checkbox-showLife-${data.index}`"
-              @change="updateCharacter(items[data.index])"
-              switch
-            >
-            </b-form-checkbox>
+          <template #cell(life)="data">
+            <SpinButtonField
+              class="col-6 p-0"
+              :id="`checkbox-life-${data.index}`"
+              v-model="items[data.index].life"
+              @input="updateCharacter(items[data.index])"
+              :contentCols="12"
+              :min="0"
+              :max="items[data.index].maxLife"
+            />
           </template>
 
           <template #head(selected)="">
@@ -59,17 +60,6 @@
                 </b-dropdown-item>
                 <b-dropdown-item @click="changeSelectedsPublic(false)">
                   Tornar privado
-                </b-dropdown-item>
-                <b-dropdown-divider></b-dropdown-divider>
-                <b-dropdown-item
-                  @click="changeSelectedsShowLifeOnProfile(true)"
-                >
-                  Mostrar vida
-                </b-dropdown-item>
-                <b-dropdown-item
-                  @click="changeSelectedsShowLifeOnProfile(false)"
-                >
-                  Mostrar nome
                 </b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item variant="danger" @click="deleteSelecteds()">
@@ -120,7 +110,7 @@ export default Vue.extend({
         { key: 'name', label: 'Nome' },
         { key: 'playerTag', label: 'Jogador' },
         { key: 'public', label: 'Público' },
-        { key: 'showLifeOnProfile', label: 'Mostrar vida no OBS' },
+        { key: 'life', label: 'Vida do personagem' },
         { key: 'selected', label: '' },
       ],
       items: new Array<Character>(),
@@ -185,24 +175,13 @@ export default Vue.extend({
 
       this.updateCharacters()
     },
-    changeSelectedsShowLifeOnProfile(flag: boolean): void {
-      this.selected.forEach((uuid) => {
-        const character = this.items.find((item) => item.uuid === uuid)
-
-        if (character) {
-          character.showLifeOnProfile = flag
-        }
-      })
-
-      this.updateCharacters()
-    },
     updateCharacters(): void {
       this.items.forEach((character) => this.updateCharacter(character))
     },
     updateCharacter(character: Character): void {
       this.$fire.database.ref('character').child(character.uuid).update({
         public: character.public,
-        showLifeOnProfile: character.showLifeOnProfile,
+        life: character.life,
       })
     },
     deleteSelecteds(): void {

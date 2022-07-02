@@ -18,9 +18,6 @@
           <b-dropdown-item @click="navigateToLifeLinkGenerator()">
             Vida do personagem
           </b-dropdown-item>
-          <b-dropdown-item @click="navigateToProfileLinkGenerator()">
-            Perfil do personagem
-          </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
 
