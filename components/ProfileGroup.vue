@@ -42,25 +42,6 @@
         :contentCols="6"
         v-if="!readonly"
       />
-      <InputField
-        id="character-description-field"
-        label="Conceito"
-        :value="description"
-        @input="updateDescription($event)"
-        :labelCols="3"
-        :contentCols="6"
-        :readonly="readonly"
-      />
-      <InputField
-        id="character-character-experience-field"
-        label="Experiência"
-        :value="`${exp}`"
-        @input="updateExp($event)"
-        :labelCols="3"
-        :contentCols="6"
-        :readonly="readonly"
-        type="number"
-      />
       <SpinButtonField
         id="character-character-life-field"
         label="Vida máxima"

@@ -24,14 +24,6 @@
           :contentCols="10"
           :readonly="readonly"
         />
-        <InputField
-          id="character-description-field"
-          label="Conceito"
-          v-model="character.description"
-          :labelCols="2"
-          :contentCols="10"
-          :readonly="readonly"
-        />
       </div>
 
       <template #modal-footer>
